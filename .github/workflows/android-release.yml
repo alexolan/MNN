@@ -21,7 +21,8 @@ permissions:
 jobs:
   release-build:
     name: Validate overlay and build unsigned Release APK
-    runs-on: ubuntu-latest
+    # Public-repository standard runner: 4 vCPU and 16 GB RAM.
+    runs-on: ubuntu-24.04
     timeout-minutes: 120
     env:
       KEYSTORE_FILE: ''

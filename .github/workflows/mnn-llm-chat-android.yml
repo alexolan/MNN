@@ -27,7 +27,8 @@ permissions:
 jobs:
   test-and-build:
     name: Unit tests and debug APK
-    runs-on: ubuntu-latest
+    # Public-repository standard runner: 4 vCPU and 16 GB RAM.
+    runs-on: ubuntu-24.04
     timeout-minutes: 90
 
     steps:
