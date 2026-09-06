@@ -201,8 +201,8 @@
     {
       "baselineSha256": null,
       "path": "apps/Android/MnnLlmChat/app/src/test/java/com/alibaba/mnnllm/android/rag/DocumentImporterTest.kt",
-      "sha256": "92563c7176765134c33fade157f555099a4b150c9172a05ac6875d1cdd5eae80",
-      "sizeBytes": 4850
+      "sha256": "1a6dc97c399800e4a85e2f06939d59a051ad5e48d2a4c57293d5ec266f21733c",
+      "sizeBytes": 4836
     },
     {
       "baselineSha256": null,
@@ -266,9 +266,9 @@
     }
   ],
   "incremental": {
-    "createdAt": "2026-09-06T09:59:42Z",
-    "targetCommit": "7328306cc2ddb70cc4d8f5240d0c5eae0ba75c6d",
-    "version": "local-rag-chunker-fix",
+    "createdAt": "2026-09-06T10:10:13Z",
+    "targetCommit": "6c2a25b8e32f02216335701dd8f97c2981816a45",
+    "version": "local-rag-test-fix",
     "zipFileName": "mnn-3.6.1-local-rag-incremental.zip"
   },
   "schemaVersion": 1
