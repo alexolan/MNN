@@ -141,8 +141,8 @@
     {
       "baselineSha256": null,
       "path": "apps/Android/MnnLlmChat/app/src/main/java/com/alibaba/mnnllm/android/rag/RagRuntimeCoordinator.kt",
-      "sha256": "abc11edc821b474ba9634ccead4d5dca021f810ff9d629c2698d828cf1254bba",
-      "sizeBytes": 7406
+      "sha256": "eec314d04b7539e383be9e1838b37de064912e71a407ec0159c28b46f203ec4c",
+      "sizeBytes": 7570
     },
     {
       "baselineSha256": null,
@@ -266,9 +266,9 @@
     }
   ],
   "incremental": {
-    "createdAt": "2026-09-06T09:46:46Z",
-    "targetCommit": "1000bf3a0cd8c15b384edfef8f43e8ab0927018e",
-    "version": "local-rag-kotlin-fix",
+    "createdAt": "2026-09-06T09:59:42Z",
+    "targetCommit": "7328306cc2ddb70cc4d8f5240d0c5eae0ba75c6d",
+    "version": "local-rag-chunker-fix",
     "zipFileName": "mnn-3.6.1-local-rag-incremental.zip"
   },
   "schemaVersion": 1
