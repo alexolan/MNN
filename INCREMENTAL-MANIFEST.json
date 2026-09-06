@@ -159,8 +159,8 @@
     {
       "baselineSha256": null,
       "path": "apps/Android/MnnLlmChat/app/src/main/res/drawable/rag_selected_badge_background.xml",
-      "sha256": "02ec601eb4b9312bedcac2ab66e2eb7b37f7d86b36c88eb2a039e04c6a3e63b9",
-      "sizeBytes": 233
+      "sha256": "f52e96af78cb1aa34d5c77b69bad6810f169c705c39b4af0e6301467f4501b81",
+      "sizeBytes": 232
     },
     {
       "baselineSha256": null,
@@ -266,9 +266,9 @@
     }
   ],
   "incremental": {
-    "createdAt": "2026-09-06T09:14:53Z",
-    "targetCommit": "e4125f824a02e3cd436b34b599443db5e6217821",
-    "version": "local-rag-tag-3.6.1",
+    "createdAt": "2026-09-06T09:34:05Z",
+    "targetCommit": "f4492f27a55d246f3679ef09e93a09978c337ac1",
+    "version": "local-rag-build-fix",
     "zipFileName": "mnn-3.6.1-local-rag-incremental.zip"
   },
   "schemaVersion": 1
