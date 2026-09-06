@@ -1,0 +1,275 @@
+{
+  "baseline": {
+    "commit": "d0a32f5e55b9c8c57ac077d51887c951922320c1",
+    "sourceArchiveSha256": "93d60848879e68be554c247afe376657630a30652a7d8ec713e9e7d1bbf69260",
+    "version": "MNN-3.6.1"
+  },
+  "deleteFiles": [],
+  "files": [
+    {
+      "baselineSha256": null,
+      "path": ".github/workflows/android-debug.yml",
+      "sha256": "fd561438d02ac682140da8e557dc7f04e75befd8eeab9c23ff4fe66b31bda059",
+      "sizeBytes": 4513
+    },
+    {
+      "baselineSha256": null,
+      "path": ".github/workflows/android-release.yml",
+      "sha256": "0e93b4d1a2bc7944627bf53b837c0f32a3051a1c72d1a6f3450d8c5c455263f5",
+      "sizeBytes": 5061
+    },
+    {
+      "baselineSha256": null,
+      "path": ".github/workflows/mnn-llm-chat-android.yml",
+      "sha256": "ab6a7ca171ebf72fd5b705d23fd54a62f098ef006196cb2be0117a797ed0ff5f",
+      "sizeBytes": 3117
+    },
+    {
+      "baselineSha256": "9072b5947f2d665dd04464531c3adf512edf88bc73923d6972da37b17ed6f871",
+      "path": "apps/Android/MnnLlmChat/app/src/main/AndroidManifest.xml",
+      "sha256": "b705e8869a8e445d78590c11f45862326be7944fb4a90b16528b55be0e87f8bf",
+      "sizeBytes": 7160
+    },
+    {
+      "baselineSha256": "b7ed4bf4410d37daed797b78805433196018ef5d0d8619ee15ed61604c8f3476",
+      "path": "apps/Android/MnnLlmChat/app/src/main/cpp/CMakeLists.txt",
+      "sha256": "4f623f86213a3b9414d6458240d37b06f53bf314dac4ccaaf94e93f7c8e8be9a",
+      "sizeBytes": 3400
+    },
+    {
+      "baselineSha256": null,
+      "path": "apps/Android/MnnLlmChat/app/src/main/cpp/rag_embedding_jni.cpp",
+      "sha256": "550cdd1bc26dba5c867c3efba838efebbecbf10b4c7c2a2059e9680dcc2035eb",
+      "sizeBytes": 4507
+    },
+    {
+      "baselineSha256": "4ab8b5b6e273477337e227325bae1db3f289a5ed01b74294657afb657c4d5ecc",
+      "path": "apps/Android/MnnLlmChat/app/src/main/java/com/alibaba/mnnllm/android/MnnLlmApplication.kt",
+      "sha256": "cd5204ef0627baa08531c149063382c2fb6288edf249c30e3630a4e44e11ba24",
+      "sizeBytes": 2701
+    },
+    {
+      "baselineSha256": "79b272016e33af0b3af92a13eba50314df5a1beb044d0e46753f18c78aaa847e",
+      "path": "apps/Android/MnnLlmChat/app/src/main/java/com/alibaba/mnnllm/android/chat/ChatActivity.kt",
+      "sha256": "7c06eb0827c9a5774f8b7dc7936afdcf9ddfc84e55e44f597b69026bd96b2e95",
+      "sizeBytes": 46670
+    },
+    {
+      "baselineSha256": "ead297105908ced2243b86f1a7f3c6260b41e334f3ef93db68b90c13ff027ad3",
+      "path": "apps/Android/MnnLlmChat/app/src/main/java/com/alibaba/mnnllm/android/chat/ChatPresenter.kt",
+      "sha256": "216226b5e15db372339ec7089ff45beb0e2e9ee825cd1dd73e2ba49f86a6a078",
+      "sizeBytes": 23090
+    },
+    {
+      "baselineSha256": null,
+      "path": "apps/Android/MnnLlmChat/app/src/main/java/com/alibaba/mnnllm/android/rag/Chunking.kt",
+      "sha256": "ff76648835a39b1d6293e0b51969fc58183ceae2a90f16500d07b8c35236d2ac",
+      "sizeBytes": 8848
+    },
+    {
+      "baselineSha256": null,
+      "path": "apps/Android/MnnLlmChat/app/src/main/java/com/alibaba/mnnllm/android/rag/DocumentImporter.kt",
+      "sha256": "5584fff474c07302aa82de05e586caa5dfb9ec54b67d2cc01ccc0626d15e1bee",
+      "sizeBytes": 6748
+    },
+    {
+      "baselineSha256": null,
+      "path": "apps/Android/MnnLlmChat/app/src/main/java/com/alibaba/mnnllm/android/rag/DocumentParsers.kt",
+      "sha256": "aae794e74594363aa6c563ef4afa84c2bec239eb7af67b8e9108551d5867ce5e",
+      "sizeBytes": 8838
+    },
+    {
+      "baselineSha256": null,
+      "path": "apps/Android/MnnLlmChat/app/src/main/java/com/alibaba/mnnllm/android/rag/DocxDocumentParser.kt",
+      "sha256": "b2ad2ff95bef899bbe1f14540eb767f680510fe1419558bbbd762ac5688265c3",
+      "sizeBytes": 9822
+    },
+    {
+      "baselineSha256": null,
+      "path": "apps/Android/MnnLlmChat/app/src/main/java/com/alibaba/mnnllm/android/rag/IndexingOrchestrator.kt",
+      "sha256": "8b741c6c16a023bc69475350b0a1f55469799a476fc0e7e202a412a84b6ae290",
+      "sizeBytes": 3854
+    },
+    {
+      "baselineSha256": null,
+      "path": "apps/Android/MnnLlmChat/app/src/main/java/com/alibaba/mnnllm/android/rag/KnowledgeBaseActivity.kt",
+      "sha256": "1b2314a6290433d15479d29576b3f48b646aff58933cd1900514396fc88acffb",
+      "sizeBytes": 13087
+    },
+    {
+      "baselineSha256": null,
+      "path": "apps/Android/MnnLlmChat/app/src/main/java/com/alibaba/mnnllm/android/rag/KnowledgeBaseAdapter.kt",
+      "sha256": "d4015883bf2c08ea7a7df19a71f3caa2ed92c53630b023170c8a7ca6cb0a1f01",
+      "sizeBytes": 4939
+    },
+    {
+      "baselineSha256": null,
+      "path": "apps/Android/MnnLlmChat/app/src/main/java/com/alibaba/mnnllm/android/rag/MnnEmbeddingEngine.kt",
+      "sha256": "ad5ab66dd2c77603980847cebc0c9279c87319919df9ba819bfd45b1152b3e99",
+      "sizeBytes": 2863
+    },
+    {
+      "baselineSha256": null,
+      "path": "apps/Android/MnnLlmChat/app/src/main/java/com/alibaba/mnnllm/android/rag/ModelBundleImporter.kt",
+      "sha256": "6e41d0f8cfbb7b02d0951b622858d6b640a54a45e660f237d9bc707c0cfafb87",
+      "sizeBytes": 7323
+    },
+    {
+      "baselineSha256": null,
+      "path": "apps/Android/MnnLlmChat/app/src/main/java/com/alibaba/mnnllm/android/rag/ModelManifestValidator.kt",
+      "sha256": "6ce93a61d906bdced19cbdb44a21ce3cbad938f928cbfb8bc85df83fbf9b9ccd",
+      "sizeBytes": 9255
+    },
+    {
+      "baselineSha256": null,
+      "path": "apps/Android/MnnLlmChat/app/src/main/java/com/alibaba/mnnllm/android/rag/RagDatabase.kt",
+      "sha256": "4f504455416a7dc3671daa3e8f8d921df5ddc18743701fe792c85dbec83301ea",
+      "sizeBytes": 19947
+    },
+    {
+      "baselineSha256": null,
+      "path": "apps/Android/MnnLlmChat/app/src/main/java/com/alibaba/mnnllm/android/rag/RagModels.kt",
+      "sha256": "6dbac64defab440fbd5f51e65e8ec0d5550e2709798642fa87f57e4f69063429",
+      "sizeBytes": 2580
+    },
+    {
+      "baselineSha256": null,
+      "path": "apps/Android/MnnLlmChat/app/src/main/java/com/alibaba/mnnllm/android/rag/RagRetrieval.kt",
+      "sha256": "4e80cdf12be16bddc7cd68f9a0da585b75b920069f546699d8a0cb8141871e45",
+      "sizeBytes": 8171
+    },
+    {
+      "baselineSha256": null,
+      "path": "apps/Android/MnnLlmChat/app/src/main/java/com/alibaba/mnnllm/android/rag/RagRuntimeCoordinator.kt",
+      "sha256": "abc11edc821b474ba9634ccead4d5dca021f810ff9d629c2698d828cf1254bba",
+      "sizeBytes": 7406
+    },
+    {
+      "baselineSha256": null,
+      "path": "apps/Android/MnnLlmChat/app/src/main/java/com/alibaba/mnnllm/android/rag/VectorIndexingPipeline.kt",
+      "sha256": "61317a1b9859580ec7358d0f8b9188f024cd48bcda8cf8d74d079b399b1c7a34",
+      "sizeBytes": 2824
+    },
+    {
+      "baselineSha256": null,
+      "path": "apps/Android/MnnLlmChat/app/src/main/java/com/alibaba/mnnllm/android/rag/VectorStore.kt",
+      "sha256": "675f6a2e9e8eec5a03ef3c15bee05db8ba344e7281e2f124d26647373a3e5784",
+      "sizeBytes": 6594
+    },
+    {
+      "baselineSha256": null,
+      "path": "apps/Android/MnnLlmChat/app/src/main/res/drawable/rag_selected_badge_background.xml",
+      "sha256": "02ec601eb4b9312bedcac2ab66e2eb7b37f7d86b36c88eb2a039e04c6a3e63b9",
+      "sizeBytes": 233
+    },
+    {
+      "baselineSha256": null,
+      "path": "apps/Android/MnnLlmChat/app/src/main/res/layout/activity_knowledge_base.xml",
+      "sha256": "706a73790278a8d7d3341f93a2fbfda32ecbbd84d9c00128828ba59c9376ee61",
+      "sizeBytes": 4358
+    },
+    {
+      "baselineSha256": null,
+      "path": "apps/Android/MnnLlmChat/app/src/main/res/layout/item_rag_document.xml",
+      "sha256": "ed5ee06637b0309208bf7bbf83dc7813fdd353cb6de7b4610f35c9cfeafb8684",
+      "sizeBytes": 2026
+    },
+    {
+      "baselineSha256": null,
+      "path": "apps/Android/MnnLlmChat/app/src/main/res/layout/item_rag_knowledge_base.xml",
+      "sha256": "8b30da9499e8895c33961fde0a1f13d50029b2a2ac0cc87d9b80785ecf84cf9b",
+      "sizeBytes": 3752
+    },
+    {
+      "baselineSha256": "a88727958e15f93585ff42ab958533efc036a0b2c84f7306406fba1bb62a3757",
+      "path": "apps/Android/MnnLlmChat/app/src/main/res/menu/menu_chat.xml",
+      "sha256": "55fc1e47b93a106394d58b8f8205531fd688a2f43ff374802c2486034b91bc7b",
+      "sizeBytes": 2082
+    },
+    {
+      "baselineSha256": "950532c13c3d9e400e3a221ffff8011229e9760d1d4edab0de852ff9a0ed510b",
+      "path": "apps/Android/MnnLlmChat/app/src/main/res/values/strings.xml",
+      "sha256": "94ff022df84d15ab8483fe22d3c60284aaf8caa391323ad3759ed7560a468913",
+      "sizeBytes": 47521
+    },
+    {
+      "baselineSha256": null,
+      "path": "apps/Android/MnnLlmChat/app/src/test/java/com/alibaba/mnnllm/android/rag/ChunkingTest.kt",
+      "sha256": "4d60eef694eda13a3c2abe56a752a0017481aa3b7cf591a8dab4851e9838c387",
+      "sizeBytes": 5045
+    },
+    {
+      "baselineSha256": null,
+      "path": "apps/Android/MnnLlmChat/app/src/test/java/com/alibaba/mnnllm/android/rag/DocumentImporterTest.kt",
+      "sha256": "92563c7176765134c33fade157f555099a4b150c9172a05ac6875d1cdd5eae80",
+      "sizeBytes": 4850
+    },
+    {
+      "baselineSha256": null,
+      "path": "apps/Android/MnnLlmChat/app/src/test/java/com/alibaba/mnnllm/android/rag/DocumentParsersTest.kt",
+      "sha256": "7d99f15cc90b08e08c72fbc8dd66f0e82f1cef714c4f89c5f9c43b88eb5e9892",
+      "sizeBytes": 3338
+    },
+    {
+      "baselineSha256": null,
+      "path": "apps/Android/MnnLlmChat/app/src/test/java/com/alibaba/mnnllm/android/rag/DocxDocumentParserTest.kt",
+      "sha256": "54eb180089da82048608d890b2d255aad3bfae3d02a7dc3985e6e25b3ce588cb",
+      "sizeBytes": 4680
+    },
+    {
+      "baselineSha256": null,
+      "path": "apps/Android/MnnLlmChat/app/src/test/java/com/alibaba/mnnllm/android/rag/IndexingOrchestratorTest.kt",
+      "sha256": "11d3d8c7137d5199a42fae7443086754565cbb37a87512b53a92158950ad751e",
+      "sizeBytes": 6228
+    },
+    {
+      "baselineSha256": null,
+      "path": "apps/Android/MnnLlmChat/app/src/test/java/com/alibaba/mnnllm/android/rag/ModelManifestValidatorTest.kt",
+      "sha256": "04c05bfa0cd3696511add3b6247315ccc753594438685b3957754f7859df6eab",
+      "sizeBytes": 7642
+    },
+    {
+      "baselineSha256": null,
+      "path": "apps/Android/MnnLlmChat/app/src/test/java/com/alibaba/mnnllm/android/rag/RagDatabaseTest.kt",
+      "sha256": "c8c47d3d36e4ccfc42fc26f5cd58b29bc239cfbab04fc12a805ae6c8a3ec5f99",
+      "sizeBytes": 7063
+    },
+    {
+      "baselineSha256": null,
+      "path": "apps/Android/MnnLlmChat/app/src/test/java/com/alibaba/mnnllm/android/rag/RagRetrievalTest.kt",
+      "sha256": "ac34de96cda4691ee53d623d12c792769fc954f9a267be2d0fe9162e03c59a78",
+      "sizeBytes": 7086
+    },
+    {
+      "baselineSha256": null,
+      "path": "apps/Android/MnnLlmChat/app/src/test/java/com/alibaba/mnnllm/android/rag/VectorIndexingPipelineTest.kt",
+      "sha256": "e91ff9a6b5ab9b08296490ce35e9c091f1f3dfa40a5c568400b3b9e276457de3",
+      "sizeBytes": 6429
+    },
+    {
+      "baselineSha256": null,
+      "path": "apps/Android/MnnLlmChat/app/src/test/java/com/alibaba/mnnllm/android/rag/VectorStoreTest.kt",
+      "sha256": "c4858d563d6615ae12494e192e19cf39537d0dac352700df0f4c4671be12fbf9",
+      "sizeBytes": 3556
+    },
+    {
+      "baselineSha256": null,
+      "path": "scripts/apply_incremental.py",
+      "sha256": "2e08e5e4c86f6db8c67b5f978cd324168fac8abc75b29b65e198be911e14983f",
+      "sizeBytes": 6238
+    },
+    {
+      "baselineSha256": null,
+      "path": "scripts/build_incremental.py",
+      "sha256": "157791c601fe88d52f1435e18af371a7bbb620238d96707a1443b0bfc8e402d0",
+      "sizeBytes": 7009
+    }
+  ],
+  "incremental": {
+    "createdAt": "2026-09-06T09:14:53Z",
+    "targetCommit": "e4125f824a02e3cd436b34b599443db5e6217821",
+    "version": "local-rag-tag-3.6.1",
+    "zipFileName": "mnn-3.6.1-local-rag-incremental.zip"
+  },
+  "schemaVersion": 1
+}

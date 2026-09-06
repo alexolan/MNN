@@ -1,0 +1,139 @@
+name: Android Debug Incremental Build
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - master
+      - 'feature/**'
+    paths:
+      - 'mnn-3.6.1-local-rag-incremental.zip'
+      - 'scripts/apply_incremental.py'
+      - '.github/workflows/android-debug.yml'
+
+concurrency:
+  group: android-debug-incremental-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  debug-build:
+    name: Validate overlay, test and build Debug APK
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+
+    steps:
+      - name: Checkout incremental delivery
+        uses: actions/checkout@v4
+        with:
+          path: incremental-delivery
+
+      - name: Checkout MNN 3.6.1 source
+        uses: actions/checkout@v4
+        with:
+          repository: alibaba/MNN
+          ref: '3.6.1'
+          path: source
+          fetch-depth: 1
+
+      - name: Verify MNN source tag
+        working-directory: source
+        run: |
+          test "$(git describe --tags --exact-match)" = '3.6.1'
+          test "$(git rev-parse HEAD)" = 'd407447ed56c4121a11ccbd266dc184ca1ead0c2'
+
+      - name: Set up Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+          cache: gradle
+          cache-dependency-path: source/apps/Android/MnnLlmChat/**/*.gradle*
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Install Android build components
+        run: |
+          sdkmanager --install \
+            'platforms;android-36' \
+            'build-tools;35.0.0' \
+            'ndk;27.2.12479018' \
+            'cmake;3.22.1'
+
+      - name: Validate and apply incremental ZIP
+        run: |
+          test -f incremental-delivery/mnn-3.6.1-local-rag-incremental.zip
+          python3 incremental-delivery/scripts/apply_incremental.py \
+            --repo ./source \
+            --zip ./incremental-delivery/mnn-3.6.1-local-rag-incremental.zip \
+            --overlay-list ./incremental-overlay.txt
+
+      - name: Build MNN arm64 native libraries
+        run: |
+          export ANDROID_NDK="$ANDROID_HOME/ndk/27.2.12479018"
+          export ANDROID_NDK_HOME="$ANDROID_NDK"
+          mkdir -p source/project/android/build_64
+          cd source/project/android/build_64
+          ../build_64.sh \
+            -DCMAKE_BUILD_TYPE=Debug \
+            -DMNN_LOW_MEMORY=true \
+            -DMNN_CPU_WEIGHT_DEQUANT_GEMM=true \
+            -DMNN_BUILD_LLM=true \
+            -DMNN_SUPPORT_TRANSFORMER_FUSE=true \
+            -DLLM_SUPPORT_VISION=true \
+            -DMNN_BUILD_OPENCV=true \
+            -DMNN_IMGCODECS=true \
+            -DLLM_SUPPORT_AUDIO=true \
+            -DMNN_BUILD_AUDIO=true \
+            -DMNN_SUPPORT_BF16=ON
+
+      - name: Run RAG unit tests
+        working-directory: source/apps/Android/MnnLlmChat
+        run: |
+          chmod +x gradlew
+          ./gradlew --no-daemon --stacktrace testStandardDebugUnitTest
+
+      - name: Assemble standard Debug APK
+        working-directory: source/apps/Android/MnnLlmChat
+        run: ./gradlew --no-daemon --stacktrace assembleStandardDebug
+
+      - name: Verify APK ABI and generate hashes
+        run: |
+          set -eu
+          APK_DIR='source/apps/Android/MnnLlmChat/app/build/outputs/apk/standard/debug'
+          APK="$(find "$APK_DIR" -maxdepth 1 -type f -name '*.apk' | head -1)"
+          test -n "$APK"
+          unzip -Z1 "$APK" | grep '^lib/' | cut -d/ -f2 | sort -u > apk-abis.txt
+          test "$(cat apk-abis.txt)" = 'arm64-v8a'
+          sha256sum "$APK" > SHA256SUMS-debug.txt
+
+      - name: Upload Debug APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: mnn-3.6.1-local-rag-debug
+          path: |
+            source/apps/Android/MnnLlmChat/app/build/outputs/apk/standard/debug/*.apk
+            SHA256SUMS-debug.txt
+            apk-abis.txt
+            incremental-overlay.txt
+          if-no-files-found: error
+
+      - name: Upload test and build reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mnn-3.6.1-local-rag-debug-reports
+          path: |
+            source/apps/Android/MnnLlmChat/app/build/reports/tests/
+            source/apps/Android/MnnLlmChat/app/build/test-results/
+            source/apps/Android/MnnLlmChat/app/build/reports/problems/
+            incremental-overlay.txt
+          if-no-files-found: warn

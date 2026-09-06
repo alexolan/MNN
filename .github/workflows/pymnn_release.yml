@@ -1,18 +1,6 @@
 name: pymnn_release
 on:
-  push:
-    paths:
-      - '.github/workflows/pymnn_release.yml'
-    tags:
-      - '*'
-      - '!Android*'
   workflow_dispatch:
-    inputs:
-      publish_to_pypi:
-        description: Publish wheels to PyPI after a successful build
-        required: false
-        type: boolean
-        default: false
 
 jobs:
   build_wheels:
