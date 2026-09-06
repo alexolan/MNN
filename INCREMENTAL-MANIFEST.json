@@ -99,8 +99,8 @@
     {
       "baselineSha256": null,
       "path": "apps/Android/MnnLlmChat/app/src/main/java/com/alibaba/mnnllm/android/rag/KnowledgeBaseAdapter.kt",
-      "sha256": "d4015883bf2c08ea7a7df19a71f3caa2ed92c53630b023170c8a7ca6cb0a1f01",
-      "sizeBytes": 4939
+      "sha256": "30ee27858784cebca8d7af9e5d70af98572c36662685043297aaea7ed1c36f2f",
+      "sizeBytes": 5139
     },
     {
       "baselineSha256": null,
@@ -111,8 +111,8 @@
     {
       "baselineSha256": null,
       "path": "apps/Android/MnnLlmChat/app/src/main/java/com/alibaba/mnnllm/android/rag/ModelBundleImporter.kt",
-      "sha256": "6e41d0f8cfbb7b02d0951b622858d6b640a54a45e660f237d9bc707c0cfafb87",
-      "sizeBytes": 7323
+      "sha256": "a7dcc435f1f301d1502129b7ef18028e7c4e58c9f02097de9a682b28ae0b44d7",
+      "sizeBytes": 7393
     },
     {
       "baselineSha256": null,
@@ -266,9 +266,9 @@
     }
   ],
   "incremental": {
-    "createdAt": "2026-09-06T09:34:05Z",
-    "targetCommit": "f4492f27a55d246f3679ef09e93a09978c337ac1",
-    "version": "local-rag-build-fix",
+    "createdAt": "2026-09-06T09:46:46Z",
+    "targetCommit": "1000bf3a0cd8c15b384edfef8f43e8ab0927018e",
+    "version": "local-rag-kotlin-fix",
     "zipFileName": "mnn-3.6.1-local-rag-incremental.zip"
   },
   "schemaVersion": 1
