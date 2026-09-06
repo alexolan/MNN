@@ -100,12 +100,16 @@ jobs:
             -DLLM_SUPPORT_AUDIO=true \
             -DMNN_BUILD_AUDIO=true \
             -DMNN_SUPPORT_BF16=ON
+          test -f libMNN.so
+          mkdir -p lib
+          cp -f libMNN.so lib/libMNN.so
+          test -f lib/libMNN.so
 
       - name: Run RAG unit tests
         working-directory: source/apps/Android/MnnLlmChat
         run: |
           chmod +x gradlew
-          ./gradlew --no-daemon --stacktrace testStandardReleaseUnitTest
+          ./gradlew --no-daemon --stacktrace testStandardDebugUnitTest
 
       - name: Assemble unsigned standard Release APK
         working-directory: source/apps/Android/MnnLlmChat

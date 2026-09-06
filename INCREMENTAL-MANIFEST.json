@@ -9,14 +9,14 @@
     {
       "baselineSha256": null,
       "path": ".github/workflows/android-debug.yml",
-      "sha256": "73db728d00b9dbb21853301d394f5982f5d0afce3d99057e357e015069601470",
-      "sizeBytes": 4575
+      "sha256": "8537a8646a6c8e8ea2b23013f61f9d6003033f4049465bc63c686fe9e2a60b0a",
+      "sizeBytes": 4698
     },
     {
       "baselineSha256": null,
       "path": ".github/workflows/android-release.yml",
-      "sha256": "eeba86d3cdf8dda08bf627695f53a6d1c5eba49d86a2f1dac5a9f7f8fe4bbafd",
-      "sizeBytes": 5123
+      "sha256": "6ef1d8d548c86b2f89033ecb18a267cfcf239d58a222e8588991d560e66cfdc8",
+      "sizeBytes": 5244
     },
     {
       "baselineSha256": null,
@@ -272,9 +272,9 @@
     }
   ],
   "incremental": {
-    "createdAt": "2026-09-06T10:48:00Z",
+    "createdAt": "2026-09-06T11:06:59Z",
     "targetCommit": "6c2a25b8e32f02216335701dd8f97c2981816a45",
-    "version": "local-rag-ci-test-fix",
+    "version": "local-rag-ci-native-path-fix",
     "zipFileName": "mnn-3.6.1-local-rag-incremental.zip"
   },
   "schemaVersion": 1
