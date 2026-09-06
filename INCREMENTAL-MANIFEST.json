@@ -9,20 +9,20 @@
     {
       "baselineSha256": null,
       "path": ".github/workflows/android-debug.yml",
-      "sha256": "fd561438d02ac682140da8e557dc7f04e75befd8eeab9c23ff4fe66b31bda059",
-      "sizeBytes": 4513
+      "sha256": "73db728d00b9dbb21853301d394f5982f5d0afce3d99057e357e015069601470",
+      "sizeBytes": 4575
     },
     {
       "baselineSha256": null,
       "path": ".github/workflows/android-release.yml",
-      "sha256": "0e93b4d1a2bc7944627bf53b837c0f32a3051a1c72d1a6f3450d8c5c455263f5",
-      "sizeBytes": 5061
+      "sha256": "eeba86d3cdf8dda08bf627695f53a6d1c5eba49d86a2f1dac5a9f7f8fe4bbafd",
+      "sizeBytes": 5123
     },
     {
       "baselineSha256": null,
       "path": ".github/workflows/mnn-llm-chat-android.yml",
-      "sha256": "ab6a7ca171ebf72fd5b705d23fd54a62f098ef006196cb2be0117a797ed0ff5f",
-      "sizeBytes": 3117
+      "sha256": "573eb434a9ff21ed52bf94406da73a427b3734e305fbb2550375487191cde849",
+      "sizeBytes": 3179
     },
     {
       "baselineSha256": "9072b5947f2d665dd04464531c3adf512edf88bc73923d6972da37b17ed6f871",
@@ -75,8 +75,8 @@
     {
       "baselineSha256": null,
       "path": "apps/Android/MnnLlmChat/app/src/main/java/com/alibaba/mnnllm/android/rag/DocumentParsers.kt",
-      "sha256": "aae794e74594363aa6c563ef4afa84c2bec239eb7af67b8e9108551d5867ce5e",
-      "sizeBytes": 8838
+      "sha256": "c15fba00905997075c0806cdc2bb687477b19b4d5a205170053385fba79859d7",
+      "sizeBytes": 8876
     },
     {
       "baselineSha256": null,
@@ -135,8 +135,8 @@
     {
       "baselineSha256": null,
       "path": "apps/Android/MnnLlmChat/app/src/main/java/com/alibaba/mnnllm/android/rag/RagRetrieval.kt",
-      "sha256": "4e80cdf12be16bddc7cd68f9a0da585b75b920069f546699d8a0cb8141871e45",
-      "sizeBytes": 8171
+      "sha256": "15ef6eafb0eb39cf6e386c54780d256f81a93d541e41b1888743d64af17a5e59",
+      "sizeBytes": 8223
     },
     {
       "baselineSha256": null,
@@ -155,6 +155,12 @@
       "path": "apps/Android/MnnLlmChat/app/src/main/java/com/alibaba/mnnllm/android/rag/VectorStore.kt",
       "sha256": "675f6a2e9e8eec5a03ef3c15bee05db8ba344e7281e2f124d26647373a3e5784",
       "sizeBytes": 6594
+    },
+    {
+      "baselineSha256": "581f354bba19d4c15ad9bdf3c071c0159305e25d72040917148122111c74f8a8",
+      "path": "apps/Android/MnnLlmChat/app/src/main/java/com/alibaba/mnnllm/android/utils/DeviceUtils.kt",
+      "sha256": "4e7dbc1b2df0853c8015a5c1a9eab68dafc454c8996ccd4b12afa73655b54896",
+      "sizeBytes": 1131
     },
     {
       "baselineSha256": null,
@@ -195,7 +201,7 @@
     {
       "baselineSha256": null,
       "path": "apps/Android/MnnLlmChat/app/src/test/java/com/alibaba/mnnllm/android/rag/ChunkingTest.kt",
-      "sha256": "4d60eef694eda13a3c2abe56a752a0017481aa3b7cf591a8dab4851e9838c387",
+      "sha256": "f3c8569f963d0e75aeecc7e2d644efc25a4cc8c3824b7aacb0588a21376356d2",
       "sizeBytes": 5045
     },
     {
@@ -213,8 +219,8 @@
     {
       "baselineSha256": null,
       "path": "apps/Android/MnnLlmChat/app/src/test/java/com/alibaba/mnnllm/android/rag/DocxDocumentParserTest.kt",
-      "sha256": "54eb180089da82048608d890b2d255aad3bfae3d02a7dc3985e6e25b3ce588cb",
-      "sizeBytes": 4680
+      "sha256": "050ef08a37a6a4508d41680743930567c00de14ae16cccb66ec1418536e67f19",
+      "sizeBytes": 4796
     },
     {
       "baselineSha256": null,
@@ -225,8 +231,8 @@
     {
       "baselineSha256": null,
       "path": "apps/Android/MnnLlmChat/app/src/test/java/com/alibaba/mnnllm/android/rag/ModelManifestValidatorTest.kt",
-      "sha256": "04c05bfa0cd3696511add3b6247315ccc753594438685b3957754f7859df6eab",
-      "sizeBytes": 7642
+      "sha256": "9bff378c8d1bd7a807b62061f32fcf69c50a850b72224e916198de818f6973de",
+      "sizeBytes": 7758
     },
     {
       "baselineSha256": null,
@@ -266,9 +272,9 @@
     }
   ],
   "incremental": {
-    "createdAt": "2026-09-06T10:10:13Z",
+    "createdAt": "2026-09-06T10:48:00Z",
     "targetCommit": "6c2a25b8e32f02216335701dd8f97c2981816a45",
-    "version": "local-rag-test-fix",
+    "version": "local-rag-ci-test-fix",
     "zipFileName": "mnn-3.6.1-local-rag-incremental.zip"
   },
   "schemaVersion": 1
