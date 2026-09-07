@@ -26,6 +26,7 @@ endif ()
 add_library(${CMAKE_PROJECT_NAME} SHARED
         # List C/C++ source files with relative paths to this CMakeLists.txt.
         llm_mnn_jni.cpp
+        rag_embedding_jni.cpp
         mnn_wrapper_jni.cpp
         llm_session.cpp
         crash_util.cpp
