@@ -38,6 +38,11 @@
         app:showAsAction="never" />
     
     <item
+        android:id="@+id/menu_item_knowledge_base"
+        android:title="@string/rag_knowledge_bases"
+        app:showAsAction="never" />
+
+    <item
         android:id="@+id/menu_item_api_settings"
         android:title="@string/api_settings"
         app:showAsAction="never" />

@@ -35,6 +35,7 @@ import com.alibaba.mnnllm.android.databinding.ActivityChatBinding
 import com.alibaba.mnnllm.android.llm.AudioDataListener
 import com.alibaba.mnnllm.android.llm.LlmSession
 import com.alibaba.mnnllm.android.mainsettings.MainSettings.isApiServiceEnabled
+import com.alibaba.mnnllm.android.rag.KnowledgeBaseActivity
 import com.alibaba.mnnllm.android.modelsettings.SettingsBottomSheetFragment
 import com.alibaba.mnnllm.android.modelsettings.DiffusionSettingsBottomSheetFragment
 import com.alibaba.mnnllm.api.openai.ui.ApiSettingsBottomSheetFragment
@@ -567,6 +568,9 @@ class ChatActivity : AppCompatActivity() {
                 chatSession!!.reset()
                 return@start handleSendMessage(createUserMessage(message))
             })
+        } else if (item.itemId == R.id.menu_item_knowledge_base) {
+            startActivity(Intent(this, KnowledgeBaseActivity::class.java))
+            return true
         } else if (item.itemId == R.id.menu_item_api_settings) {
             ApiSettingsBottomSheetFragment().show(supportFragmentManager, "ApiSettingsBottomSheetFragment")
             return true
