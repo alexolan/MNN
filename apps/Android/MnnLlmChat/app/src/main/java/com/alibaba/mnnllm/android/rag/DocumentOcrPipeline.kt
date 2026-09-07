@@ -166,7 +166,7 @@ class DocumentOcrPipeline(
     private fun renderScale(width: Int, height: Int): Float {
         validateDimensions(width, height)
         val nativePixels = pixelCount(width, height).toDouble()
-        return min(limits.pdfRenderScale, sqrt(limits.maxDecodedPixels / nativePixels)).coerceAtMost(1f)
+        return min(limits.pdfRenderScale.toDouble(), sqrt(limits.maxDecodedPixels / nativePixels)).coerceAtMost(1.0).toFloat()
     }
 
     private fun allocateBitmap(width: Int, height: Int): Bitmap = try {

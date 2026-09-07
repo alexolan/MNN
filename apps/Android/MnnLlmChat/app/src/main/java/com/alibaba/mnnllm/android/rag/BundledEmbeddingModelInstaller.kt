@@ -22,7 +22,7 @@ private class AndroidBundledModelAssets(context: Context) : BundledModelAssets {
 }
 
 /** Installs the APK-bundled embedding model into an atomic, content-addressed private directory. */
-class BundledEmbeddingModelInstaller(
+internal class BundledEmbeddingModelInstaller(
     private val context: Context,
     private val validator: ModelManifestValidator = ModelManifestValidator(),
     private val assetRoot: String = DEFAULT_ASSET_ROOT,

@@ -286,7 +286,7 @@ class ChatPresenter(
 
     suspend fun requestGenerate(userData: ChatDataItem, generateListener: GenerateListener): HashMap<String, Any> {
         this.generateListener = generateListener
-        val userPrompt = PromptUtils.generateUserPrompt(userData)
+        val userPrompt = PromptUtils.generateUserPrompt(userData).toString()
         var userInputSaved = false
 
         // Ensure user input is saved first

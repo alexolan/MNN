@@ -668,13 +668,8 @@ class ChatActivity : AppCompatActivity() {
             return
         }
         val recentItem = chatListComponent.recentItem ?: return
-        if (!ChatHistoryPersistencePolicy.shouldSaveInterruptedAssistant(
-                isGenerating = isGenerating,
-                isMockStreamSession = isMockStreamSession,
-                isDiffusion = isDiffusion,
-                itemType = recentItem.type,
-                text = recentItem.text
-            )
+        if (!isGenerating || isMockStreamSession || isDiffusion ||
+            recentItem.type != ChatViewHolders.ASSISTANT || recentItem.text.isNullOrEmpty()
         ) {
             return
         }

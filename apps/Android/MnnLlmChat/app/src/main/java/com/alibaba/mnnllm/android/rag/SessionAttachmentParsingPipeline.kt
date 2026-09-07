@@ -132,6 +132,18 @@ class SessionAttachmentParsingPipeline(
         ) { "Attachment status update failed" }
     }
 
+    private fun persistFailure(attachment: SessionAttachment, error: Throwable): Result.Failed {
+        val reason = readableError(error)
+        database.updateSessionAttachmentStatus(
+            attachmentId = attachment.id,
+            sessionId = attachment.sessionId,
+            status = RagDocumentStatus.FAILED,
+            errorMessage = reason,
+            now = now()
+        )
+        return Result.Failed(reason, error)
+    }
+
     private fun readableError(error: Throwable): String =
         RagResourceGovernance.sanitizeError(error)
 
