@@ -675,4 +675,56 @@
     <string name="save_image">Save Image</string>
     <string name="image_saved_to_gallery">Image saved to gallery</string>
     <string name="failed_to_save_image">Failed to save image</string>
+
+    <!-- Local Knowledge Base RAG -->
+    <string name="create">Create</string>
+    <string name="delete">Delete</string>
+    <string name="rag_knowledge_bases">Local Knowledge Bases</string>
+    <string name="rag_create_knowledge_base">Create Knowledge Base</string>
+    <string name="rag_knowledge_base_name">Knowledge base name</string>
+    <string name="rag_name_required">Knowledge base name is required</string>
+    <string name="rag_empty_knowledge_bases">No local knowledge bases yet. Create one to import documents.</string>
+    <string name="rag_selected">Selected</string>
+    <string name="rag_import_documents">Import Documents</string>
+    <string name="rag_import_summary">Imported: %1$d, duplicates: %2$d, failed: %3$d</string>
+    <string name="rag_delete_document">Delete Document</string>
+    <string name="rag_delete_document_message">Delete “%1$s” and its local index?</string>
+    <string name="rag_delete_knowledge_base">Delete Knowledge Base</string>
+    <string name="rag_delete_knowledge_base_message">Delete “%1$s” and all of its documents and indexes?</string>
+    <string name="rag_status_queued">Queued</string>
+    <string name="rag_status_parsing">Parsing</string>
+    <string name="rag_status_ocr">Running OCR</string>
+    <string name="rag_status_embedding">Generating embeddings</string>
+    <string name="rag_status_ready">Ready</string>
+    <string name="rag_status_failed">Failed</string>
+    <string name="rag_embedding_model">Embedding Model</string>
+    <string name="rag_select_model_directory">Select Model Directory</string>
+    <string name="rag_model_not_configured">No embedding model configured</string>
+    <string name="rag_model_configured">Embedding model configured</string>
+    <string name="rag_model_importing">Copying and validating model bundle…</string>
+    <string name="rag_model_configuration_failed">Model configuration failed</string>
+    <string name="rag_model_ready">Model ready: %1$s (%2$d dimensions)</string>
+    <string name="rag_model_failed">Model unavailable: %1$s</string>
+    <string name="rag_indexing_queued_documents">Indexing queued documents…</string>
+    <string name="rag_indexing_summary">Indexing finished: %1$d queued, %2$d ready, %3$d failed</string>
+    <plurals name="rag_document_count">
+        <item quantity="one">%d document</item>
+        <item quantity="other">%d documents</item>
+    </plurals>
+    <string name="session_attachment_add">Document</string>
+    <string name="session_attachment_document">Document attachment</string>
+    <string name="session_attachment_remove">Remove attachment</string>
+    <string name="session_attachment_selected">Selected · %1$s</string>
+    <string name="session_attachment_processing">Processing · %1$s</string>
+    <string name="session_attachment_ready">Ready · %1$s</string>
+    <string name="session_attachment_failed">Failed · %1$s</string>
+    <string name="session_attachment_size_unknown">Unknown size</string>
+    <string name="session_attachment_limit">You can attach up to %1$d files per selection</string>
+    <string name="session_attachment_unsupported">Unsupported attachment type</string>
+    <string name="session_attachment_retry">Retry attachment indexing</string>
+    <string name="session_attachment_cancel">Cancel attachment indexing</string>
+    <string name="session_attachment_cancelled">Attachment indexing was cancelled</string>
+    <string name="session_attachment_view_source">View attachment source</string>
+    <string name="session_attachment_source_unavailable">No application can open this attachment source</string>
+    <string name="session_attachment_status_with_error">%1$s · %2$s</string>
 </resources>

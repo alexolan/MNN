@@ -210,7 +210,7 @@ class ChatInputComponent(
         val enabled = shouldEnableSendButton(
             isLoading = chatActivity.isLoading,
             isGenerating = chatActivity.isGenerating,
-            hasAttachment = currentUserMessage != null,
+            hasAttachment = currentUserMessage != null || attachmentPickerModule?.selectedSessionAttachments()?.isNotEmpty() == true,
             inputText = editUserMessage.text.toString(),
             requiresFaceImage = ModelTypeUtils.requiresFaceImageInput(currentModelId)
         )
@@ -259,10 +259,7 @@ class ChatInputComponent(
     private fun setupAttachmentPickerModule() {
         imageMore = binding.btPlus
         buttonSwitchVoice = binding.btSwitchAudio
-        if (!ModelTypeUtils.isVisualModel(currentModelId) && !ModelTypeUtils.isAudioModel(currentModelId)) {
-            imageMore.setVisibility(View.GONE)
-            return
-        }
+        imageMore.visibility = View.VISIBLE
         attachmentPickerModule = AttachmentPickerModule(chatActivity)
         attachmentPickerModule!!.setOnImagePickCallback(object : ImagePickCallback {
             override fun onAttachmentPicked(imageUris: List<Uri>?, audio: AttachmentType?) {
@@ -296,6 +293,11 @@ class ChatInputComponent(
 
             override fun onAttachmentLayoutHide() {
                 imageMore.setImageResource(R.drawable.ic_plus)
+            }
+
+            override fun onSessionAttachmentsChanged(attachments: List<SessionAttachmentSelection>) {
+                imageMore.visibility = View.VISIBLE
+                updateSenderButton()
             }
         })
         imageMore.setOnClickListener {

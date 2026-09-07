@@ -1,0 +1,31 @@
+{
+  "allowedFiles": [
+    "LICENSE-MIT.txt",
+    "README.md",
+    "SOURCE-METADATA.json",
+    "config.json",
+    "configuration.json",
+    "embeddings_int8.bin",
+    "llm.mnn",
+    "llm.mnn.weight",
+    "llm_config.json",
+    "model-manifest.json",
+    "tokenizer.mtok"
+  ],
+  "archiveName": "bge-small-zh-v1.5-MNN-94d938b71091a64810416900713f5312ad27cd36.zip",
+  "archiveRoot": "bge-small-zh-v1.5-MNN",
+  "archiveSha256": "3b53abf32541d2c60eb0d141ed7bfa500d66eeab983bd8329fb51ab7af4d70ae",
+  "archiveSizeBytes": 64003031,
+  "assetDestination": "apps/Android/MnnLlmChat/app/src/main/assets/rag/models/bge-small-zh-v1.5",
+  "configPath": "config.json",
+  "dimensions": 512,
+  "downloadUrl": "https://github.com/alexolan/MNN/releases/download/rag-model-bge-small-zh-v1.5-v1/bge-small-zh-v1.5-MNN-94d938b71091a64810416900713f5312ad27cd36.zip",
+  "maxContentTokens": 510,
+  "maxSequenceLength": 512,
+  "modelId": "bge-small-zh-v1.5-MNN",
+  "releaseTag": "rag-model-bge-small-zh-v1.5-v1",
+  "runtimeManifest": "manifest.json",
+  "schemaVersion": 1,
+  "sourceModelId": "TorryJi/bge-small-zh-v1.5-MNN",
+  "sourceRevision": "94d938b71091a64810416900713f5312ad27cd36"
+}

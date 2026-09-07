@@ -95,6 +95,18 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:background="@drawable/bg_chat_input">
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/session_attachment_recycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingStart="12dp"
+                    android:paddingEnd="12dp"
+                    android:paddingTop="12dp"
+                    android:clipToPadding="false"
+                    android:visibility="gone"
+                    tools:listitem="@layout/item_session_attachment_preview"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
                 <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -259,6 +271,14 @@
                     android:paddingBottom="20dp"
                     android:visibility="gone"
                     tools:visibility="visible">
+
+                    <com.alibaba.mnnllm.android.chat.input.MoreMenuItemView
+                        android:id="@+id/more_item_document"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        app:icon="@drawable/ic_audio_file"
+                        app:text="@string/session_attachment_add" />
 
                     <com.alibaba.mnnllm.android.chat.input.MoreMenuItemView
                         android:id="@+id/more_item_camera"

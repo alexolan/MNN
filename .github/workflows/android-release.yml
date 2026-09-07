@@ -9,6 +9,9 @@ on:
     paths:
       - 'mnn-3.6.1-local-rag-incremental.zip'
       - 'scripts/apply_incremental.py'
+      - 'scripts/bundled_embedding_model.json'
+      - 'scripts/prepare_bundled_embedding_model.py'
+      - 'scripts/verify_bundled_embedding_apk.py'
       - '.github/workflows/android-release.yml'
 
 concurrency:
@@ -82,6 +85,21 @@ jobs:
             --zip ./incremental-delivery/mnn-3.6.1-local-rag-incremental.zip \
             --overlay-list ./incremental-overlay.txt
 
+
+      - name: Download and inject pinned embedding model
+        run: |
+          set -eu
+          MODEL_URL="$(python3 -c 'import json; print(json.load(open("incremental-delivery/scripts/bundled_embedding_model.json"))["downloadUrl"])')"
+          MODEL_NAME="$(python3 -c 'import json; print(json.load(open("incremental-delivery/scripts/bundled_embedding_model.json"))["archiveName"])')"
+          curl -fL --retry 3 --connect-timeout 20 --max-time 900 "$MODEL_URL" -o "$RUNNER_TEMP/$MODEL_NAME"
+          python3 incremental-delivery/scripts/prepare_bundled_embedding_model.py \
+            --repo ./source \
+            --pin "$GITHUB_WORKSPACE/incremental-delivery/scripts/bundled_embedding_model.json" \
+            --archive "$RUNNER_TEMP/$MODEL_NAME"
+          MODEL_DIR='source/apps/Android/MnnLlmChat/app/src/main/assets/rag/models/bge-small-zh-v1.5'
+          test "$(find "$MODEL_DIR" -maxdepth 1 -type f | wc -l)" -eq 12
+          du -sb "$MODEL_DIR" | tee bundled-model-source-size.txt
+
       - name: Build MNN arm64 native libraries
         run: |
           export ANDROID_NDK="$ANDROID_HOME/ndk/27.2.12479018"
@@ -121,14 +139,19 @@ jobs:
           APK_DIR='source/apps/Android/MnnLlmChat/app/build/outputs/apk/standard/release'
           APK="$(find "$APK_DIR" -maxdepth 1 -type f -name '*.apk' | head -1)"
           test -n "$APK"
-          unzip -Z1 "$APK" | grep '^lib/' | cut -d/ -f2 | sort -u > apk-abis-release.txt
-          test "$(cat apk-abis-release.txt)" = 'arm64-v8a'
+          unzip -Z1 "$APK" | grep '^lib/' | cut -d/ -f2 | sort -u > apk-abis.txt
+          test "$(cat apk-abis.txt)" = 'arm64-v8a'
           APKSIGNER="$ANDROID_HOME/build-tools/35.0.0/apksigner"
           if "$APKSIGNER" verify "$APK" > apksigner-release.txt 2>&1; then
             echo 'Release APK unexpectedly contains a valid signature' >&2
             exit 1
           fi
           grep -Eqi 'does not verify|not signed|no signatures' apksigner-release.txt
+          python3 incremental-delivery/scripts/verify_bundled_embedding_apk.py \
+            --apk "$APK" \
+            --pin incremental-delivery/scripts/bundled_embedding_model.json \
+            --report bundled-model-release.json
+          stat -c 'apkSizeBytes=%s' "$APK" > apk-size-release.txt
           sha256sum "$APK" > SHA256SUMS.txt
 
       - name: Upload unsigned Release APK
@@ -138,8 +161,11 @@ jobs:
           path: |
             source/apps/Android/MnnLlmChat/app/build/outputs/apk/standard/release/*.apk
             SHA256SUMS.txt
-            apk-abis-release.txt
+            apk-abis.txt
             apksigner-release.txt
+            apk-size-release.txt
+            bundled-model-source-size.txt
+            bundled-model-release.json
             incremental-overlay.txt
           if-no-files-found: error
 

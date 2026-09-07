@@ -14,9 +14,13 @@ import android.content.Context
 import com.jaredrummler.android.device.DeviceName
 import com.alibaba.mnnllm.android.modelist.ModelListManager
 import com.alibaba.mnnllm.android.privacy.PrivacyPolicyManager
+import com.alibaba.mnnllm.android.rag.RagRuntimeCoordinator
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 
 class MnnLlmApplication : Application() {
+    val ragRuntimeCoordinator: RagRuntimeCoordinator by lazy(LazyThreadSafetyMode.SYNCHRONIZED) {
+        RagRuntimeCoordinator(applicationContext)
+    }
     
     override fun onCreate() {
         super.onCreate()

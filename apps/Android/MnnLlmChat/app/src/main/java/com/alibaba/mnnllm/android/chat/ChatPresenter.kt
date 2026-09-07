@@ -7,6 +7,7 @@ import android.text.TextUtils
 import android.util.Log
 import androidx.lifecycle.lifecycleScope
 import com.alibaba.mls.api.ModelItem
+import com.alibaba.mnnllm.android.MnnLlmApplication
 import com.alibaba.mnnllm.android.llm.ChatService
 import com.alibaba.mnnllm.android.llm.ChatSession
 import com.alibaba.mnnllm.api.openai.di.ServiceLocator
@@ -285,7 +286,7 @@ class ChatPresenter(
 
     suspend fun requestGenerate(userData: ChatDataItem, generateListener: GenerateListener): HashMap<String, Any> {
         this.generateListener = generateListener
-        val prompt = PromptUtils.generateUserPrompt(userData)
+        val userPrompt = PromptUtils.generateUserPrompt(userData)
         var userInputSaved = false
 
         // Ensure user input is saved first
@@ -303,8 +304,25 @@ class ChatPresenter(
             this.generateListener?.onGenerateStart()
             additionalListeners.forEach { it.onGenerateStart() }
             
+            val requestPrompt = if (
+                ModelTypeUtils.isDiffusionModel(modelName) ||
+                ModelTypeUtils.isSanaModel(modelName)
+            ) {
+                userPrompt
+            } else {
+                val runtime = (chatActivity.application as MnnLlmApplication).ragRuntimeCoordinator
+                runCatching {
+                    runtime.promptProvider(
+                        knowledgeBaseId = runtime.selectedKnowledgeBaseId(),
+                        sessionId = sessionId
+                    )?.augment(userPrompt) ?: userPrompt
+                }.onFailure { error ->
+                    Log.w(TAG, "RAG prompt augmentation failed; continuing without retrieval", error)
+                }.getOrDefault(userPrompt)
+            }
+
             val result = presenterScope.async {
-                return@async submitRequest(prompt, userData)
+                return@async submitRequest(requestPrompt, userData)
             }.await()
             
             return result

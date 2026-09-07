@@ -9,6 +9,8 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.provider.MediaStore
+import android.provider.OpenableColumns
+import androidx.activity.result.contract.ActivityResultContracts
 import android.util.Log
 import android.view.View
 import android.widget.ImageView
@@ -17,11 +19,17 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.lifecycle.lifecycleScope
+import com.alibaba.mnnllm.android.MnnLlmApplication
 import com.alibaba.mnnllm.android.R
 import com.alibaba.mnnllm.android.chat.ChatActivity
+import com.alibaba.mnnllm.android.rag.RagDatabase
+import com.alibaba.mnnllm.android.rag.SessionAttachmentImporter
+import com.alibaba.mnnllm.android.rag.SessionAttachmentIndexingOrchestrator
 import com.alibaba.mnnllm.android.utils.FileUtils
 import com.alibaba.mnnllm.android.model.ModelTypeUtils
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
@@ -31,6 +39,17 @@ class AttachmentPickerModule(private val activity: ChatActivity) {
     private val takePhotoView: View
     private val chooseImageView: View
     private val chooseVideoView: View
+    private val chooseDocumentView: View
+    private val selectedDocuments = mutableListOf<SessionAttachmentSelection>()
+    private val documentPreviewAdapter = SessionAttachmentPreviewAdapter(
+        onRemove = ::removeDocument,
+        onRetry = ::retryDocument,
+        onCancel = ::cancelDocument,
+        onViewSource = ::viewDocumentSource
+    )
+    private val documentLauncher = activity.registerForActivityResult(ActivityResultContracts.OpenMultipleDocuments()) { uris ->
+        handleDocumentsSelected(uris)
+    }
 
     private val attachmentPreview: ImageView
     private val imagePreviewLayout: View
@@ -48,6 +67,9 @@ class AttachmentPickerModule(private val activity: ChatActivity) {
         takePhotoView = activity.findViewById(R.id.more_item_camera)
         chooseImageView = activity.findViewById(R.id.more_item_photo)
         chooseVideoView = activity.findViewById(R.id.more_item_video)
+        chooseDocumentView = activity.findViewById(R.id.more_item_document)
+        activity.findViewById<androidx.recyclerview.widget.RecyclerView>(R.id.session_attachment_recycler).adapter = documentPreviewAdapter
+        chooseDocumentView.setOnClickListener { documentLauncher.launch(SUPPORTED_DOCUMENT_TYPES) }
         if (ModelTypeUtils.isVisualModel(activity.modelId!!)) {
             takePhotoView.setOnClickListener { v: View? -> takePhoto() }
             chooseImageView.setOnClickListener { v: View? -> chooseImageView() }
@@ -87,6 +109,52 @@ class AttachmentPickerModule(private val activity: ChatActivity) {
             }
         }
         imagePreviewRecycler.adapter = imagePreviewAdapter
+        restoreSessionAttachmentsAndObserve()
+    }
+
+    private fun restoreSessionAttachmentsAndObserve() {
+        val sessionId = activity.sessionId?.takeIf { it.isNotBlank() } ?: return
+        activity.lifecycleScope.launch {
+            while (isActive) {
+                val attachments = withContext(Dispatchers.IO) {
+                    val database = RagDatabase(activity.applicationContext)
+                    try {
+                        database.listSessionAttachments(sessionId)
+                    } finally {
+                        database.close()
+                    }
+                }
+                var changed = false
+                attachments.forEach { attachment ->
+                    val index = selectedDocuments.indexOfFirst { it.attachmentId == attachment.id }
+                    val mappedStatus = SessionAttachmentUiPolicy.status(attachment.status)
+                    val restored = SessionAttachmentSelection(
+                        uri = Uri.parse(attachment.sourceUri),
+                        displayName = attachment.displayName,
+                        mimeType = attachment.mimeType,
+                        sizeBytes = attachment.sizeBytes,
+                        status = mappedStatus,
+                        errorMessage = attachment.errorMessage?.let(SessionAttachmentUiPolicy::actionableError),
+                        attachmentId = attachment.id,
+                        privatePath = attachment.privatePath,
+                        sha256 = attachment.sha256
+                    )
+                    if (index < 0) {
+                        selectedDocuments += restored
+                        changed = true
+                    } else if (selectedDocuments[index] != restored) {
+                        selectedDocuments[index] = restored
+                        changed = true
+                    }
+                }
+                if (changed) {
+                    renderDocuments()
+                    notifyDocumentsChanged()
+                }
+                val hasProcessing = selectedDocuments.any { it.status == SessionAttachmentUiStatus.PROCESSING }
+                delay(if (hasProcessing) ATTACHMENT_STATUS_POLL_MS else ATTACHMENT_IDLE_POLL_MS)
+            }
+        }
     }
 
     private fun deletePreviewImage() {
@@ -204,6 +272,245 @@ class AttachmentPickerModule(private val activity: ChatActivity) {
             Toast.makeText(activity, R.string.no_camera_app_found, Toast.LENGTH_SHORT).show()
         }
     }
+
+    private fun handleDocumentsSelected(uris: List<Uri>) {
+        if (uris.isEmpty()) return
+        if (uris.size > MAX_DOCUMENTS_PER_SELECTION) {
+            Toast.makeText(activity, activity.getString(R.string.session_attachment_limit, MAX_DOCUMENTS_PER_SELECTION), Toast.LENGTH_LONG).show()
+        }
+        val availableSlots = (MAX_DOCUMENTS_PER_SELECTION - selectedDocuments.size).coerceAtLeast(0)
+        val additions = uris.distinct()
+            .filter { uri -> selectedDocuments.none { it.uri == uri } }
+            .take(availableSlots)
+            .map(::describeDocument)
+        if (additions.isEmpty()) {
+            hideAttachmentLayout()
+            return
+        }
+        selectedDocuments += additions
+        renderDocuments()
+        notifyDocumentsChanged()
+        hideAttachmentLayout()
+        importDocuments(additions)
+    }
+
+    private fun importDocuments(additions: List<SessionAttachmentSelection>) {
+        val sessionId = activity.sessionId
+        if (sessionId.isNullOrBlank()) {
+            additions.forEach { updateDocument(it.uri, status = SessionAttachmentUiStatus.FAILED, errorMessage = "Session is unavailable") }
+            return
+        }
+        additions.forEach { updateDocument(it.uri, status = SessionAttachmentUiStatus.PROCESSING) }
+        activity.lifecycleScope.launch {
+            val results = withContext(Dispatchers.IO) {
+                val database = RagDatabase(activity.applicationContext)
+                try {
+                    SessionAttachmentImporter(activity.applicationContext, database).importAttachments(
+                        sessionId = sessionId,
+                        uris = additions.map { it.uri },
+                        parserVersion = SESSION_ATTACHMENT_PARSER_VERSION
+                    )
+                } finally {
+                    database.close()
+                }
+            }
+            val runtime = (activity.application as MnnLlmApplication).ragRuntimeCoordinator
+            results.forEach { result ->
+                when (result) {
+                    is SessionAttachmentImporter.ImportResult.Imported -> {
+                        val enqueueResult = runCatching {
+                            runtime.enqueueSessionAttachment(result.attachment)
+                        }
+                        val queued = enqueueResult.getOrNull()
+                        updateDocument(
+                            uri = result.uri,
+                            status = when (queued) {
+                                SessionAttachmentIndexingOrchestrator.EnqueueResult.AlreadyReady -> SessionAttachmentUiStatus.READY
+                                SessionAttachmentIndexingOrchestrator.EnqueueResult.Queued,
+                                SessionAttachmentIndexingOrchestrator.EnqueueResult.AlreadyQueued -> SessionAttachmentUiStatus.PROCESSING
+                                SessionAttachmentIndexingOrchestrator.EnqueueResult.QueueFull,
+                                null -> SessionAttachmentUiStatus.FAILED
+                            },
+                            errorMessage = when {
+                                enqueueResult.isFailure -> enqueueResult.exceptionOrNull()?.message
+                                queued == SessionAttachmentIndexingOrchestrator.EnqueueResult.QueueFull -> "Attachment indexing queue is full"
+                                else -> null
+                            },
+                            attachmentId = result.attachment.id,
+                            privatePath = result.attachment.privatePath,
+                            sha256 = result.attachment.sha256,
+                            sizeBytes = result.attachment.sizeBytes
+                        )
+                    }
+                    is SessionAttachmentImporter.ImportResult.Duplicate -> {
+                        val enqueueResult = runCatching {
+                            runtime.enqueueSessionAttachment(result.existing)
+                        }
+                        val queued = enqueueResult.getOrNull()
+                        updateDocument(
+                            uri = result.uri,
+                            status = when (queued) {
+                                SessionAttachmentIndexingOrchestrator.EnqueueResult.AlreadyReady -> SessionAttachmentUiStatus.READY
+                                SessionAttachmentIndexingOrchestrator.EnqueueResult.Queued,
+                                SessionAttachmentIndexingOrchestrator.EnqueueResult.AlreadyQueued -> SessionAttachmentUiStatus.PROCESSING
+                                SessionAttachmentIndexingOrchestrator.EnqueueResult.QueueFull,
+                                null -> SessionAttachmentUiStatus.FAILED
+                            },
+                            errorMessage = when {
+                                enqueueResult.isFailure -> enqueueResult.exceptionOrNull()?.message
+                                queued == SessionAttachmentIndexingOrchestrator.EnqueueResult.QueueFull -> "Attachment indexing queue is full"
+                                else -> null
+                            },
+                            attachmentId = result.existing.id,
+                            privatePath = result.existing.privatePath,
+                            sha256 = result.existing.sha256,
+                            sizeBytes = result.existing.sizeBytes
+                        )
+                    }
+                    is SessionAttachmentImporter.ImportResult.Failed -> updateDocument(
+                        uri = result.uri,
+                        status = SessionAttachmentUiStatus.FAILED,
+                        errorMessage = result.reason
+                    )
+                }
+            }
+        }
+    }
+
+    private fun describeDocument(uri: Uri): SessionAttachmentSelection {
+        var name = uri.lastPathSegment ?: "document"
+        var size: Long? = null
+        activity.contentResolver.query(uri, arrayOf(OpenableColumns.DISPLAY_NAME, OpenableColumns.SIZE), null, null, null)?.use { cursor ->
+            if (cursor.moveToFirst()) {
+                cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME).takeIf { it >= 0 }?.let { name = cursor.getString(it) ?: name }
+                cursor.getColumnIndex(OpenableColumns.SIZE).takeIf { it >= 0 && !cursor.isNull(it) }?.let { size = cursor.getLong(it) }
+            }
+        }
+        return SessionAttachmentSelection(uri, name, activity.contentResolver.getType(uri), size)
+    }
+
+    private fun updateDocument(
+        uri: Uri,
+        status: SessionAttachmentUiStatus,
+        errorMessage: String? = null,
+        attachmentId: Long? = null,
+        privatePath: String? = null,
+        sha256: String? = null,
+        sizeBytes: Long? = null
+    ) {
+        val index = selectedDocuments.indexOfFirst { it.uri == uri }
+        if (index < 0) return
+        val current = selectedDocuments[index]
+        selectedDocuments[index] = current.copy(
+            sizeBytes = sizeBytes ?: current.sizeBytes,
+            status = status,
+            errorMessage = if (status == SessionAttachmentUiStatus.FAILED) {
+                SessionAttachmentUiPolicy.actionableError(errorMessage)
+            } else {
+                errorMessage
+            },
+            attachmentId = attachmentId ?: current.attachmentId,
+            privatePath = privatePath ?: current.privatePath,
+            sha256 = sha256 ?: current.sha256
+        )
+        renderDocuments()
+        notifyDocumentsChanged()
+    }
+
+    private fun retryDocument(item: SessionAttachmentSelection) {
+        if (item.status != SessionAttachmentUiStatus.FAILED) return
+        val sessionId = activity.sessionId
+        if (sessionId.isNullOrBlank()) {
+            updateDocument(item.uri, SessionAttachmentUiStatus.FAILED, "Session is unavailable")
+            return
+        }
+        val attachmentId = item.attachmentId
+        if (attachmentId == null) {
+            importDocuments(listOf(item))
+            return
+        }
+        updateDocument(item.uri, SessionAttachmentUiStatus.PROCESSING, errorMessage = null)
+        activity.lifecycleScope.launch {
+            val attachment = withContext(Dispatchers.IO) {
+                val database = RagDatabase(activity.applicationContext)
+                try {
+                    database.getSessionAttachment(attachmentId, sessionId)
+                } finally {
+                    database.close()
+                }
+            }
+            if (attachment == null) {
+                updateDocument(item.uri, SessionAttachmentUiStatus.FAILED, "Attachment is no longer available")
+                return@launch
+            }
+            val runtime = (activity.application as MnnLlmApplication).ragRuntimeCoordinator
+            val result = runCatching { runtime.enqueueSessionAttachment(attachment) }.getOrNull()
+            updateDocument(
+                uri = item.uri,
+                status = when (result) {
+                    SessionAttachmentIndexingOrchestrator.EnqueueResult.AlreadyReady -> SessionAttachmentUiStatus.READY
+                    SessionAttachmentIndexingOrchestrator.EnqueueResult.Queued,
+                    SessionAttachmentIndexingOrchestrator.EnqueueResult.AlreadyQueued -> SessionAttachmentUiStatus.PROCESSING
+                    SessionAttachmentIndexingOrchestrator.EnqueueResult.QueueFull,
+                    null -> SessionAttachmentUiStatus.FAILED
+                },
+                errorMessage = if (result == SessionAttachmentIndexingOrchestrator.EnqueueResult.QueueFull) {
+                    "Attachment indexing queue is full"
+                } else null
+            )
+        }
+    }
+
+    private fun cancelDocument(item: SessionAttachmentSelection) {
+        val attachmentId = item.attachmentId ?: return
+        val sessionId = activity.sessionId?.takeIf { it.isNotBlank() } ?: return
+        val runtime = (activity.application as MnnLlmApplication).ragRuntimeCoordinator
+        runtime.cancelSessionAttachment(attachmentId, sessionId)
+        updateDocument(
+            uri = item.uri,
+            status = SessionAttachmentUiStatus.FAILED,
+            errorMessage = activity.getString(R.string.session_attachment_cancelled)
+        )
+    }
+
+    private fun viewDocumentSource(item: SessionAttachmentSelection) {
+        val intent = Intent(Intent.ACTION_VIEW).apply {
+            setDataAndType(item.uri, item.mimeType ?: "*/*")
+            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        }
+        try {
+            activity.startActivity(intent)
+        } catch (error: ActivityNotFoundException) {
+            Toast.makeText(activity, R.string.session_attachment_source_unavailable, Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun removeDocument(item: SessionAttachmentSelection) {
+        if (item.status == SessionAttachmentUiStatus.PROCESSING) return
+        val attachmentId = item.attachmentId
+        val sessionId = activity.sessionId
+        if (attachmentId != null && !sessionId.isNullOrBlank()) {
+            val runtime = (activity.application as MnnLlmApplication).ragRuntimeCoordinator
+            activity.lifecycleScope.launch(Dispatchers.IO) {
+                runtime.deleteSessionAttachment(attachmentId, sessionId)
+            }
+        }
+        selectedDocuments.removeAll { it.uri == item.uri }
+        renderDocuments()
+        notifyDocumentsChanged()
+    }
+
+    private fun renderDocuments() {
+        val recycler = activity.findViewById<androidx.recyclerview.widget.RecyclerView>(R.id.session_attachment_recycler)
+        documentPreviewAdapter.submitList(selectedDocuments)
+        recycler.visibility = if (selectedDocuments.isEmpty()) View.GONE else View.VISIBLE
+    }
+
+    private fun notifyDocumentsChanged() {
+        callback?.onSessionAttachmentsChanged(selectedDocuments.toList())
+    }
+
+    fun selectedSessionAttachments(): List<SessionAttachmentSelection> = selectedDocuments.toList()
 
     fun setOnImagePickCallback(callback: ImagePickCallback?) {
         this.callback = callback
@@ -397,6 +704,8 @@ class AttachmentPickerModule(private val activity: ChatActivity) {
         photoFile = null
         imageUri = null
         imagePreviewAdapter.clear()
+        selectedDocuments.clear()
+        renderDocuments()
         hidePreview()
     }
 
@@ -407,6 +716,7 @@ class AttachmentPickerModule(private val activity: ChatActivity) {
         fun onAttachmentLayoutShow()
 
         fun onAttachmentLayoutHide()
+        fun onSessionAttachmentsChanged(attachments: List<SessionAttachmentSelection>) {}
     }
 
     enum class AttachmentType {
@@ -421,5 +731,14 @@ class AttachmentPickerModule(private val activity: ChatActivity) {
         var REQUEST_CODE_SELECT_IMAGE: Int = 99
         var REQUEST_CODE_SELECT_VIDEO: Int = 97
         var REQUEST_CODE_SELECT_WAV: Int = 98
+        const val MAX_DOCUMENTS_PER_SELECTION = 10
+        const val SESSION_ATTACHMENT_PARSER_VERSION = 1
+        const val ATTACHMENT_STATUS_POLL_MS = 500L
+        const val ATTACHMENT_IDLE_POLL_MS = 2_000L
+        val SUPPORTED_DOCUMENT_TYPES = arrayOf(
+            "text/plain", "text/markdown", "application/pdf",
+            "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+            "image/png", "image/jpeg", "image/webp"
+        )
     }
 }
