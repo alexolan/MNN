@@ -2,6 +2,8 @@ package com.alibaba.mnnllm.android.rag
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Matrix
+import android.media.ExifInterface
 import android.graphics.pdf.PdfRenderer
 import android.os.ParcelFileDescriptor
 import com.google.android.gms.tasks.Tasks
@@ -36,11 +38,13 @@ class DocumentOcrPipeline(
         val bounds = decodeBounds(file)
         validateDimensions(bounds.first, bounds.second)
         val sampleSize = calculateSampleSize(bounds.first, bounds.second)
-        val bitmap = decodeSampled(file, sampleSize)
+        val decoded = decodeSampled(file, sampleSize)
+        val bitmap = applyExifOrientation(file, decoded)
         try {
             return recognizeBitmap(bitmap, pageNumber = null, startedAt = startedAt)
         } finally {
             bitmap.recycle()
+            if (decoded !== bitmap) decoded.recycle()
         }
     }
 
@@ -153,6 +157,35 @@ class DocumentOcrPipeline(
         } catch (error: OutOfMemoryError) {
             throw IllegalStateException("Image decoding exceeded the memory budget", error)
         }
+    }
+
+    private fun applyExifOrientation(file: File, bitmap: Bitmap): Bitmap {
+        val orientation = try {
+            ExifInterface(file.absolutePath).getAttributeInt(
+                ExifInterface.TAG_ORIENTATION,
+                ExifInterface.ORIENTATION_NORMAL
+            )
+        } catch (_: Exception) {
+            ExifInterface.ORIENTATION_NORMAL
+        }
+        val matrix = Matrix()
+        when (orientation) {
+            ExifInterface.ORIENTATION_FLIP_HORIZONTAL -> matrix.setScale(-1f, 1f)
+            ExifInterface.ORIENTATION_ROTATE_180 -> matrix.setRotate(180f)
+            ExifInterface.ORIENTATION_FLIP_VERTICAL -> matrix.setScale(1f, -1f)
+            ExifInterface.ORIENTATION_TRANSPOSE -> {
+                matrix.setRotate(90f)
+                matrix.postScale(-1f, 1f)
+            }
+            ExifInterface.ORIENTATION_ROTATE_90 -> matrix.setRotate(90f)
+            ExifInterface.ORIENTATION_TRANSVERSE -> {
+                matrix.setRotate(-90f)
+                matrix.postScale(-1f, 1f)
+            }
+            ExifInterface.ORIENTATION_ROTATE_270 -> matrix.setRotate(-90f)
+            else -> return bitmap
+        }
+        return Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
     }
 
     private fun calculateSampleSize(width: Int, height: Int): Int {

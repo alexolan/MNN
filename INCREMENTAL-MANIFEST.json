@@ -141,8 +141,8 @@
     {
       "baselineSha256": null,
       "path": "apps/Android/MnnLlmChat/app/src/main/java/com/alibaba/mnnllm/android/rag/DocumentOcrPipeline.kt",
-      "sha256": "bafe11bc55f7a09cd1b14d289499138d5d5dc9ef62935870a9b729b285d642d5",
-      "sizeBytes": 10777
+      "sha256": "775909f0f4fbf09bfdafb39f9ef7e57d79596f951f6c9915e7a2abbcea1619ab",
+      "sizeBytes": 12205
     },
     {
       "baselineSha256": null,
@@ -225,8 +225,8 @@
     {
       "baselineSha256": null,
       "path": "apps/Android/MnnLlmChat/app/src/main/java/com/alibaba/mnnllm/android/rag/RagRuntimeCoordinator.kt",
-      "sha256": "1bd15f59283606c763d5d40ee4c89e909b612f35df997846defb6a70f8667c89",
-      "sizeBytes": 14332
+      "sha256": "f61e4046410551ea5118211503e9a5a7da7680154df25afe3a9b538bbe534ace",
+      "sizeBytes": 14438
     },
     {
       "baselineSha256": null,
@@ -458,7 +458,7 @@
     }
   ],
   "incremental": {
-    "createdAt": "2026-09-07T23:23:29Z",
+    "createdAt": "2026-09-07T23:57:42Z",
     "targetCommit": "6c2a25b8e32f02216335701dd8f97c2981816a45",
     "version": "bundled-embedding-step25-final",
     "zipFileName": "mnn-3.6.1-local-rag-incremental.zip"

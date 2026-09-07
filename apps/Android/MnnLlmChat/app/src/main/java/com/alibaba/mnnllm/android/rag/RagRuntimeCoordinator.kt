@@ -87,7 +87,12 @@ class RagRuntimeCoordinator(
             database = database,
             processor = sessionVectorPipeline
         )
-        val retriever = RagRetriever(database, vectorStore, engine)
+        val retriever = RagRetriever(
+            database,
+            vectorStore,
+            engine,
+            config = RetrievalConfig(minimumScore = 0.45f)
+        )
         val assembler = RagContextAssembler()
 
         runtime = Runtime(
