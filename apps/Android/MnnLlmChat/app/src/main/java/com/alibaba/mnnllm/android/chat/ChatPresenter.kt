@@ -304,21 +304,23 @@ class ChatPresenter(
             this.generateListener?.onGenerateStart()
             additionalListeners.forEach { it.onGenerateStart() }
             
-            val requestPrompt = if (
+            val requestPrompt: String = if (
                 ModelTypeUtils.isDiffusionModel(modelName) ||
                 ModelTypeUtils.isSanaModel(modelName)
             ) {
                 userPrompt
             } else {
                 val runtime = (chatActivity.application as MnnLlmApplication).ragRuntimeCoordinator
-                runCatching {
-                    runtime.promptProvider(
+                try {
+                    val provider = runtime.promptProvider(
                         knowledgeBaseId = runtime.selectedKnowledgeBaseId(),
                         sessionId = sessionId
-                    )?.augment(userPrompt)?.prompt ?: userPrompt
-                }.onFailure { error ->
+                    )
+                    provider?.augment(userPrompt)?.prompt ?: userPrompt
+                } catch (error: Exception) {
                     Log.w(TAG, "RAG prompt augmentation failed; continuing without retrieval", error)
-                }.getOrDefault(userPrompt)
+                    userPrompt
+                }
             }
 
             val result = presenterScope.async {
