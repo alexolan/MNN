@@ -315,7 +315,7 @@ class ChatPresenter(
                     runtime.promptProvider(
                         knowledgeBaseId = runtime.selectedKnowledgeBaseId(),
                         sessionId = sessionId
-                    )?.augment(userPrompt) ?: userPrompt
+                    )?.augment(userPrompt)?.prompt ?: userPrompt
                 }.onFailure { error ->
                     Log.w(TAG, "RAG prompt augmentation failed; continuing without retrieval", error)
                 }.getOrDefault(userPrompt)
