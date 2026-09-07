@@ -198,7 +198,7 @@ class SessionAttachmentParsingPipelineTest {
             ocrEngine.pdfRequests
         )
         assertTrue(result.chunks.any { it.text.contains("text page") && it.startPage == 1 })
-        assertTrue(result.chunks.any { it.text.contains("recognized scanned page") && it.startPage == 2 })
+        assertTrue(result.chunks.any { it.text.contains("recognized scanned page") && it.startPage == 1 && it.endPage == 2 })
         assertEquals(RagDocumentStatus.EMBEDDING, database.listSessionAttachments(SESSION).single().status)
     }
 
