@@ -42,7 +42,7 @@ class SessionAttachmentParsingPipelineTest {
             database = database,
             chunker = DeterministicChunker(
                 TokenCounter { text -> text.codePointCount(0, text.length).coerceAtLeast(1) },
-                ChunkingConfig(maxTokens = 20)
+                ChunkingConfig(maxTokens = 128)
             ),
             ocrPipeline = ocrEngine,
             now = { 200L }
