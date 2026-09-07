@@ -27,6 +27,11 @@
         app:showAsAction="always" />
 
     <item
+        android:id="@+id/action_knowledge_base"
+        android:title="@string/rag_knowledge_bases"
+        app:showAsAction="never" />
+
+    <item
         android:id="@+id/action_settings"
         android:title="@string/settings"
         app:showAsAction="never" />

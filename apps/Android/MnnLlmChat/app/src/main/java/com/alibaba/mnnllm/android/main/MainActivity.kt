@@ -36,6 +36,7 @@ import com.alibaba.mnnllm.android.benchmark.BenchmarkFragment
 import com.alibaba.mnnllm.android.chat.ChatRouter
 import com.alibaba.mnnllm.android.history.ChatHistoryFragment
 import com.alibaba.mnnllm.android.mainsettings.MainSettingsActivity
+import com.alibaba.mnnllm.android.rag.KnowledgeBaseActivity
 import com.alibaba.mnnllm.android.modelist.ModelListFragment
 import com.alibaba.mnnllm.android.modelmarket.ModelMarketFragment
 import com.alibaba.mnnllm.android.modelmarket.ModelRepository
@@ -159,6 +160,12 @@ class MainActivity : AppCompatActivity(), MainFragmentManager.FragmentLifecycleL
             true
         }
         
+        val knowledgeBaseMenu = menu.findItem(R.id.action_knowledge_base)
+        knowledgeBaseMenu.setOnMenuItemClickListener {
+            startActivity(Intent(this@MainActivity, KnowledgeBaseActivity::class.java))
+            true
+        }
+
         val settingsMenu = menu.findItem(R.id.action_settings)
         settingsMenu.setOnMenuItemClickListener {
             startActivity(this@MainActivity, MainSettingsActivity::class.java)
