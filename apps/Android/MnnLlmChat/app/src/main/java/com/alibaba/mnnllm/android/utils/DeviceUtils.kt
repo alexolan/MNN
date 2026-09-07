@@ -28,6 +28,6 @@ SdkInt:${Build.VERSION.SDK_INT}""")
             @Suppress("DEPRECATION")
             config.locale
         } ?: return false
-        return locale.language == "zh" && locale.country == "CN"
+        return locale.language.equals("zh", ignoreCase = true)
     }
 }

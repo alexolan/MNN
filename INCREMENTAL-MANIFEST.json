@@ -111,8 +111,8 @@
     {
       "baselineSha256": null,
       "path": "apps/Android/MnnLlmChat/app/src/main/java/com/alibaba/mnnllm/android/chat/input/SessionAttachmentUiPolicy.kt",
-      "sha256": "d9230cbb35cbc146eabc9b76e17ebac96fc54164fd281093773130e9f8685661",
-      "sizeBytes": 2783
+      "sha256": "a2afb01ae962457c42eaf5865856d0aee1c3afe84d4ef2ed52c45e6592d5c82a",
+      "sizeBytes": 2815
     },
     {
       "baselineSha256": null,
@@ -231,8 +231,8 @@
     {
       "baselineSha256": null,
       "path": "apps/Android/MnnLlmChat/app/src/main/java/com/alibaba/mnnllm/android/rag/SessionAttachmentImporter.kt",
-      "sha256": "e9f257f0789dff2d099fcfc388594c51cfeab2a7f9101d7c6ee8d205c145f5b9",
-      "sizeBytes": 9809
+      "sha256": "612b3c2aaae7c5b1cfc22517d9bc8e9c2463a8bdb50800be0f22754acf513799",
+      "sizeBytes": 10364
     },
     {
       "baselineSha256": null,
@@ -267,8 +267,8 @@
     {
       "baselineSha256": "581f354bba19d4c15ad9bdf3c071c0159305e25d72040917148122111c74f8a8",
       "path": "apps/Android/MnnLlmChat/app/src/main/java/com/alibaba/mnnllm/android/utils/DeviceUtils.kt",
-      "sha256": "581f354bba19d4c15ad9bdf3c071c0159305e25d72040917148122111c74f8a8",
-      "sizeBytes": 1133
+      "sha256": "4e7dbc1b2df0853c8015a5c1a9eab68dafc454c8996ccd4b12afa73655b54896",
+      "sizeBytes": 1131
     },
     {
       "baselineSha256": null,
@@ -369,8 +369,8 @@
     {
       "baselineSha256": null,
       "path": "apps/Android/MnnLlmChat/app/src/test/java/com/alibaba/mnnllm/android/rag/PdfDocumentParserTest.kt",
-      "sha256": "e113b2df1c9839a386d4f171643e492b49be79043031fc5bc4f619fcab4beb98",
-      "sizeBytes": 3700
+      "sha256": "012b49bfef20bf4837d8457e48d333b1ef11d2814f6fe45b9408e0f494e200e4",
+      "sizeBytes": 4187
     },
     {
       "baselineSha256": null,
@@ -411,8 +411,8 @@
     {
       "baselineSha256": null,
       "path": "apps/Android/MnnLlmChat/app/src/test/java/com/alibaba/mnnllm/android/rag/SessionAttachmentParsingPipelineTest.kt",
-      "sha256": "982a80e26f79673348ae721f6632f4a17c6f049260ea0238917ad2149858114d",
-      "sizeBytes": 13037
+      "sha256": "0b4c927a471afa839ef6323938d958e033b4b2106114e967b54a6cb3aa69a2cd",
+      "sizeBytes": 13136
     },
     {
       "baselineSha256": null,
@@ -458,7 +458,7 @@
     }
   ],
   "incremental": {
-    "createdAt": "2026-09-07T17:14:41Z",
+    "createdAt": "2026-09-07T17:25:56Z",
     "targetCommit": "6c2a25b8e32f02216335701dd8f97c2981816a45",
     "version": "bundled-embedding-step25-final",
     "zipFileName": "mnn-3.6.1-local-rag-incremental.zip"

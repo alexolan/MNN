@@ -171,7 +171,21 @@ class SessionAttachmentImporter(
             ?: uri.lastPathSegment?.substringAfterLast('/')?.takeIf { it.isNotBlank() }
             ?: "attachment"
         sizeBytes?.let { require(it >= 0L) { "Attachment size is invalid" } }
-        return Metadata(safeName, resolver.getType(uri), sizeBytes)
+        val resolvedMimeType = resolver.getType(uri) ?: mimeTypeFromExtension(safeName)
+        return Metadata(safeName, resolvedMimeType, sizeBytes)
+    }
+
+    private fun mimeTypeFromExtension(displayName: String): String? = when (
+        displayName.substringAfterLast('.', "").lowercase()
+    ) {
+        "txt" -> "text/plain"
+        "md", "markdown" -> "text/markdown"
+        "pdf" -> "application/pdf"
+        "docx" -> "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+        "png" -> "image/png"
+        "jpg", "jpeg" -> "image/jpeg"
+        "webp" -> "image/webp"
+        else -> null
     }
 
     private fun isSupported(displayName: String, mimeType: String?): Boolean {

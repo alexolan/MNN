@@ -2,6 +2,7 @@ package com.alibaba.mnnllm.android.rag
 
 import android.content.Context
 import androidx.test.core.app.ApplicationProvider
+import com.tom_roush.pdfbox.android.PDFBoxResourceLoader
 import com.tom_roush.pdfbox.pdmodel.PDDocument
 import com.tom_roush.pdfbox.pdmodel.PDPage
 import com.tom_roush.pdfbox.pdmodel.PDPageContentStream
@@ -29,6 +30,7 @@ class SessionAttachmentParsingPipelineTest {
     @Before
     fun setUp() {
         context = ApplicationProvider.getApplicationContext()
+        PDFBoxResourceLoader.init(context)
         context.deleteDatabase("rag.db")
         database = RagDatabase(context)
         root = File(context.cacheDir, "session-attachment-parsing-test").apply {
@@ -40,7 +42,7 @@ class SessionAttachmentParsingPipelineTest {
             database = database,
             chunker = DeterministicChunker(
                 TokenCounter { text -> text.codePointCount(0, text.length).coerceAtLeast(1) },
-                ChunkingConfig(maxTokens = 128)
+                ChunkingConfig(maxTokens = 20)
             ),
             ocrPipeline = ocrEngine,
             now = { 200L }

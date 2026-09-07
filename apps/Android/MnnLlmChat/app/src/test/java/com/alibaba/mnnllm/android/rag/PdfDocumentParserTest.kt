@@ -1,5 +1,8 @@
 package com.alibaba.mnnllm.android.rag
 
+import android.content.Context
+import androidx.test.core.app.ApplicationProvider
+import com.tom_roush.pdfbox.android.PDFBoxResourceLoader
 import com.tom_roush.pdfbox.pdmodel.PDDocument
 import com.tom_roush.pdfbox.pdmodel.PDPage
 import com.tom_roush.pdfbox.pdmodel.PDPageContentStream
@@ -7,11 +10,22 @@ import com.tom_roush.pdfbox.pdmodel.font.PDType1Font
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertThrows
 import org.junit.Assert.assertTrue
+import org.junit.BeforeClass
 import org.junit.Test
+import org.junit.runner.RunWith
+import org.robolectric.RobolectricTestRunner
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 
+@RunWith(RobolectricTestRunner::class)
 class PdfDocumentParserTest {
+    companion object {
+        @JvmStatic
+        @BeforeClass
+        fun initializePdfBox() {
+            PDFBoxResourceLoader.init(ApplicationProvider.getApplicationContext<Context>())
+        }
+    }
 
     @Test
     fun extractsTextPerPageAndPreservesPageMapping() {

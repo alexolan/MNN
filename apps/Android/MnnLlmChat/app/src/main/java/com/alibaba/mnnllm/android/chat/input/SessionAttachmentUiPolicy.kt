@@ -14,7 +14,7 @@ object SessionAttachmentUiPolicy {
         val normalized = message?.trim().orEmpty()
         val lower = normalized.lowercase()
         return when {
-            lower.contains("unsupported") || lower.contains("attachment type") ->
+            (lower.contains("unsupported") && !lower.contains("damaged")) || lower.contains("attachment type") ->
                 "Unsupported file format. Choose TXT, Markdown, DOCX, PDF, PNG, JPEG, or WebP."
             lower.contains("size limit") || lower.contains("too large") ->
                 "The attachment is too large. Choose a file smaller than 32 MB."
