@@ -63,7 +63,7 @@ class DeterministicChunker(
         ordered.forEach { block ->
             val pieces = splitBlock(block)
             pieces.forEach { piece ->
-                if (current.isNotEmpty() && current.headingPath != piece.headingPath) flush()
+                if (current.isNotEmpty() && (current.headingPath != piece.headingPath || current.endPage != piece.pageNumber)) flush()
                 val candidate = current.preview(piece)
                 if (current.isNotEmpty() && tokenCounter.count(candidate) > config.maxTokens) flush()
                 current.add(piece)

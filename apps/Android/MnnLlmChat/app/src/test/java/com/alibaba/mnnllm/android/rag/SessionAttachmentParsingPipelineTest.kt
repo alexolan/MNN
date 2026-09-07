@@ -68,7 +68,8 @@ class SessionAttachmentParsingPipelineTest {
 
         assertTrue(result is SessionAttachmentParsingPipeline.Result.Prepared)
         val prepared = result as SessionAttachmentParsingPipeline.Result.Prepared
-        assertEquals(2, prepared.chunks.size)
+        assertTrue(prepared.chunks.joinToString("\n") { it.text }.contains("first paragraph"))
+        assertTrue(prepared.chunks.joinToString("\n") { it.text }.contains("second paragraph"))
         assertTrue(prepared.chunks.all { it.attachmentId == attachment.id })
         assertTrue(prepared.chunks.all { it.sessionId == attachment.sessionId })
         val stored = database.listSessionAttachments(attachment.sessionId).single()

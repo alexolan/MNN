@@ -129,8 +129,8 @@
     {
       "baselineSha256": null,
       "path": "apps/Android/MnnLlmChat/app/src/main/java/com/alibaba/mnnllm/android/rag/Chunking.kt",
-      "sha256": "ff76648835a39b1d6293e0b51969fc58183ceae2a90f16500d07b8c35236d2ac",
-      "sizeBytes": 8848
+      "sha256": "07c548908a4d43de515dbd64e20a041a100514c989af6e88851e26be7a2919bb",
+      "sizeBytes": 8889
     },
     {
       "baselineSha256": null,
@@ -411,8 +411,8 @@
     {
       "baselineSha256": null,
       "path": "apps/Android/MnnLlmChat/app/src/test/java/com/alibaba/mnnllm/android/rag/SessionAttachmentParsingPipelineTest.kt",
-      "sha256": "09a464cbc2c30a14d9c298d735fd6e3b88123bdbf329b758bb21045a164acb8d",
-      "sizeBytes": 13137
+      "sha256": "248c86b13e138242ebabab98dfca81fbc14f54f7929efbaa8ea4b8d1248ef92a",
+      "sizeBytes": 13282
     },
     {
       "baselineSha256": null,
@@ -458,7 +458,7 @@
     }
   ],
   "incremental": {
-    "createdAt": "2026-09-07T17:35:51Z",
+    "createdAt": "2026-09-07T17:45:26Z",
     "targetCommit": "6c2a25b8e32f02216335701dd8f97c2981816a45",
     "version": "bundled-embedding-step25-final",
     "zipFileName": "mnn-3.6.1-local-rag-incremental.zip"
