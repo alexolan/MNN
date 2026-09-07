@@ -22,6 +22,7 @@ import com.alibaba.mnnllm.android.databinding.FragmentMainSettingsBinding
 import com.alibaba.mnnllm.android.debug.DebugActivity
 import com.alibaba.mnnllm.android.modelmarket.ModelRepository
 import com.alibaba.mnnllm.android.privacy.PrivacyPolicyManager
+import com.alibaba.mnnllm.android.rag.KnowledgeBaseActivity
 import com.alibaba.mnnllm.android.update.UpdateChecker
 import com.alibaba.mnnllm.android.utils.AppUtils
 import com.alibaba.mnnllm.api.openai.manager.ApiServiceManager
@@ -84,6 +85,7 @@ class MainSettingsFragment : Fragment() {
         setupDownloadProvider(sharedPreferences)
         setupVoiceModelManagement()
         setupStorageManagement()
+        setupKnowledgeBaseManagement()
 
         binding.itemEnableApi.isChecked = MainSettings.isApiServiceEnabled(requireContext())
         binding.itemEnableApi.setOnCheckedChangeListener { isChecked ->
@@ -148,6 +150,12 @@ class MainSettingsFragment : Fragment() {
     private fun setupStorageManagement() {
         binding.btnStorageManagement.setOnClickListener {
             startActivity(Intent(requireContext(), StorageManagementActivity::class.java))
+        }
+    }
+
+    private fun setupKnowledgeBaseManagement() {
+        binding.btnKnowledgeBase.setOnClickListener {
+            startActivity(Intent(requireContext(), KnowledgeBaseActivity::class.java))
         }
     }
 

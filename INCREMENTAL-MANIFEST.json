@@ -51,8 +51,8 @@
     {
       "baselineSha256": "9072b5947f2d665dd04464531c3adf512edf88bc73923d6972da37b17ed6f871",
       "path": "apps/Android/MnnLlmChat/app/src/main/AndroidManifest.xml",
-      "sha256": "9072b5947f2d665dd04464531c3adf512edf88bc73923d6972da37b17ed6f871",
-      "sizeBytes": 6932
+      "sha256": "b705e8869a8e445d78590c11f45862326be7944fb4a90b16528b55be0e87f8bf",
+      "sizeBytes": 7160
     },
     {
       "baselineSha256": "b7ed4bf4410d37daed797b78805433196018ef5d0d8619ee15ed61604c8f3476",
@@ -458,7 +458,7 @@
     }
   ],
   "incremental": {
-    "createdAt": "2026-09-07T17:55:14Z",
+    "createdAt": "2026-09-07T18:19:27Z",
     "targetCommit": "6c2a25b8e32f02216335701dd8f97c2981816a45",
     "version": "bundled-embedding-step25-final",
     "zipFileName": "mnn-3.6.1-local-rag-incremental.zip"

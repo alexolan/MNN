@@ -99,6 +99,12 @@
             android:exported="false"
             android:label="@string/storage_management" />
 
+        <activity
+            android:name=".rag.KnowledgeBaseActivity"
+            android:configChanges="orientation|screenSize"
+            android:exported="false"
+            android:label="@string/rag_knowledge_bases" />
+
 <!--        <activity-->
 <!--            android:name=".modelsettings.SettingsActivity"-->
 <!--            android:exported="true">-->
