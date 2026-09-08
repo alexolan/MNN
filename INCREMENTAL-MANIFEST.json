@@ -86,6 +86,12 @@
     },
     {
       "baselineSha256": null,
+      "path": "apps/Android/MnnLlmChat/app/src/main/java/com/alibaba/mnnllm/android/chat/GenerationRepetitionGuard.kt",
+      "sha256": "23ec14861f85b9a472d2296675bed32025313c73ea5bc78306215b9d4bf30fda",
+      "sizeBytes": 2730
+    },
+    {
+      "baselineSha256": null,
       "path": "apps/Android/MnnLlmChat/app/src/main/java/com/alibaba/mnnllm/android/chat/input/AttachmentPickerModule.kt",
       "sha256": "71126dec13d6cd7f3f7a9a5f42d0c24d9166d7681cc638c2fd7be4a923bdd5f5",
       "sizeBytes": 32593
@@ -119,6 +125,12 @@
       "path": "apps/Android/MnnLlmChat/app/src/main/java/com/alibaba/mnnllm/android/history/HistoryUtils.kt",
       "sha256": "a0886790fa3e1cd3d56fcd78599d7914ad15da6fd15319b254a2a08be556102a",
       "sizeBytes": 1013
+    },
+    {
+      "baselineSha256": null,
+      "path": "apps/Android/MnnLlmChat/app/src/main/java/com/alibaba/mnnllm/android/mainsettings/LogManagementActivity.kt",
+      "sha256": "fa0351e479c7c2bfaa72eecba58f041ccf3ae41e2c3f60c355193702f4d44d9d",
+      "sizeBytes": 3671
     },
     {
       "baselineSha256": null,
@@ -320,6 +332,12 @@
     },
     {
       "baselineSha256": null,
+      "path": "apps/Android/MnnLlmChat/app/src/test/java/com/alibaba/mnnllm/android/chat/GenerationRepetitionGuardTest.kt",
+      "sha256": "c5858911309ced0d962f06ec04328720455536836f4a72ca80014b788ec90945",
+      "sizeBytes": 1433
+    },
+    {
+      "baselineSha256": null,
       "path": "apps/Android/MnnLlmChat/app/src/test/java/com/alibaba/mnnllm/android/chat/input/SessionAttachmentUiPolicyTest.kt",
       "sha256": "43ab6dd289998395e83bd2c9c3bd01a173bb0c93c0c2ec1cd293b36e93e963e8",
       "sizeBytes": 2447
@@ -458,7 +476,7 @@
     }
   ],
   "incremental": {
-    "createdAt": "2026-09-08T01:00:41Z",
+    "createdAt": "2026-09-08T01:09:40Z",
     "targetCommit": "6c2a25b8e32f02216335701dd8f97c2981816a45",
     "version": "bundled-embedding-step25-final",
     "zipFileName": "mnn-3.6.1-local-rag-incremental.zip"
