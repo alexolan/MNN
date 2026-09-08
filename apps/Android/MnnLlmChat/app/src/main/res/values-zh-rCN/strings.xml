@@ -662,4 +662,39 @@
     <string name="save_image">保存图片</string>
     <string name="image_saved_to_gallery">图片已保存到相册</string>
     <string name="failed_to_save_image">保存图片失败</string>
+    <!-- 本地知识库 RAG -->
+    <string name="create">创建</string>
+    <string name="delete">删除</string>
+    <string name="rag_knowledge_bases">本地知识库</string>
+    <string name="rag_create_knowledge_base">创建知识库</string>
+    <string name="rag_knowledge_base_name">知识库名称</string>
+    <string name="rag_name_required">请输入知识库名称</string>
+    <string name="rag_empty_knowledge_bases">暂无本地知识库，请先创建知识库并导入文档。</string>
+    <string name="rag_selected">已选择</string>
+    <string name="rag_import_documents">导入文档</string>
+    <string name="rag_import_summary">已导入：%1$d，重复：%2$d，失败：%3$d</string>
+    <string name="rag_delete_document">删除文档</string>
+    <string name="rag_delete_document_message">确定删除“%1$s”及其本地索引吗？</string>
+    <string name="rag_delete_knowledge_base">删除知识库</string>
+    <string name="rag_delete_knowledge_base_message">确定删除“%1$s”及其全部文档和索引吗？</string>
+    <string name="rag_status_queued">等待处理</string>
+    <string name="rag_status_parsing">正在解析</string>
+    <string name="rag_status_ocr">正在文字识别</string>
+    <string name="rag_status_embedding">正在生成向量</string>
+    <string name="rag_status_ready">可用</string>
+    <string name="rag_status_failed">处理失败</string>
+    <string name="rag_embedding_model">向量模型</string>
+    <string name="rag_select_model_directory">选择模型目录</string>
+    <string name="rag_model_not_configured">尚未配置向量模型</string>
+    <string name="rag_model_configured">内置向量模型已就绪</string>
+    <string name="rag_model_importing">正在复制并校验模型…</string>
+    <string name="rag_model_configuration_failed">模型配置失败</string>
+    <string name="rag_model_ready">模型已就绪：%1$s（%2$d 维）</string>
+    <string name="rag_model_failed">模型不可用：%1$s</string>
+    <string name="rag_indexing_queued_documents">正在处理等待中的文档…</string>
+    <string name="rag_indexing_summary">处理完成：共 %1$d 个，成功 %2$d 个，失败 %3$d 个</string>
+    <plurals name="rag_document_count">
+        <item quantity="other">%d 个文档</item>
+    </plurals>
+
 </resources>

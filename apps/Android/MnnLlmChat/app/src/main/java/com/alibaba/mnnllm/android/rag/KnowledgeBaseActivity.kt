@@ -144,6 +144,9 @@ class KnowledgeBaseActivity : AppCompatActivity() {
                 ?: getString(R.string.rag_model_configuration_failed))
         }
         refresh()
+        if (runtime.isConfigured()) {
+            indexQueuedDocuments()
+        }
     }
 
     private fun indexQueuedDocuments() {
