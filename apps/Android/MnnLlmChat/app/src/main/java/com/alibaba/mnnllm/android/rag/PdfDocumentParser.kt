@@ -19,8 +19,12 @@ class PdfDocumentParser(
         val bytes = input.readLimited(limits.maxDocumentBytes)
         require(bytes.startsWith(PDF_HEADER)) { "PDF header is missing" }
 
-        PDDocument.load(bytes).use { document ->
-            require(!document.isEncrypted) { "Encrypted PDF is not supported" }
+        PDDocument.load(bytes, "").use { document ->
+            if (document.isEncrypted) {
+                require(document.currentAccessPermission.canExtractContent()) {
+                    "PDF prevents text extraction; remove its password or copy restrictions first"
+                }
+            }
             val pageCount = document.numberOfPages
             require(pageCount in 1..limits.maxPages) {
                 "PDF page count exceeds the configured limit"

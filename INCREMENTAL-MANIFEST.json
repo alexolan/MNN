@@ -207,8 +207,8 @@
     {
       "baselineSha256": null,
       "path": "apps/Android/MnnLlmChat/app/src/main/java/com/alibaba/mnnllm/android/rag/PdfDocumentParser.kt",
-      "sha256": "eafb1f2baeef46437a8ca88ef0fdb7354d009455c7ecee724f9b85b5832fcc07",
-      "sizeBytes": 4035
+      "sha256": "3d3de5efc9b7650dfff5f4093393316271fa8488b461dd749124f7c8e65078c8",
+      "sizeBytes": 4210
     },
     {
       "baselineSha256": null,
@@ -399,8 +399,8 @@
     {
       "baselineSha256": null,
       "path": "apps/Android/MnnLlmChat/app/src/test/java/com/alibaba/mnnllm/android/rag/PdfDocumentParserTest.kt",
-      "sha256": "012b49bfef20bf4837d8457e48d333b1ef11d2814f6fe45b9408e0f494e200e4",
-      "sizeBytes": 4187
+      "sha256": "9feb5ed800fd0673edd7911c269197ee15f512bb346434045a06dab350b8fd1b",
+      "sizeBytes": 4808
     },
     {
       "baselineSha256": null,
@@ -488,7 +488,7 @@
     }
   ],
   "incremental": {
-    "createdAt": "2026-09-08T06:01:53Z",
+    "createdAt": "2026-09-08T09:32:05Z",
     "targetCommit": "6c2a25b8e32f02216335701dd8f97c2981816a45",
     "version": "bundled-embedding-step25-final",
     "zipFileName": "mnn-3.6.1-local-rag-incremental.zip"

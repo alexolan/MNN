@@ -65,6 +65,15 @@ class PdfDocumentParserTest {
     }
 
     @Test
+    fun acceptsEncryptedPdfWhenEmptyPasswordAllowsTextExtraction() {
+        val bytes = createPdf(listOf("Readable protected text"), protectWithEmptyPassword = true)
+
+        val blocks = PdfDocumentParser().parse(ByteArrayInputStream(bytes))
+
+        assertTrue(blocks.single().text.contains("Readable protected text"))
+    }
+
+    @Test
     fun rejectsPageCountAboveConfiguredLimit() {
         val parser = PdfDocumentParser(PdfParserLimits(maxPages = 1))
 
@@ -94,7 +103,7 @@ class PdfDocumentParserTest {
         }
     }
 
-    private fun createPdf(pageTexts: List<String?>): ByteArray {
+    private fun createPdf(pageTexts: List<String?>, protectWithEmptyPassword: Boolean = false): ByteArray {
         val output = ByteArrayOutputStream()
         PDDocument().use { document ->
             pageTexts.forEach { text ->
@@ -109,6 +118,9 @@ class PdfDocumentParserTest {
                         stream.endText()
                     }
                 }
+            }
+            if (protectWithEmptyPassword) {
+                document.protect(com.tom_roush.pdfbox.pdmodel.encryption.StandardProtectionPolicy("owner-password", "", com.tom_roush.pdfbox.pdmodel.encryption.AccessPermission()))
             }
             document.save(output)
         }
