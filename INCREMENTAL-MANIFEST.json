@@ -284,6 +284,12 @@
     },
     {
       "baselineSha256": null,
+      "path": "apps/Android/MnnLlmChat/app/src/main/java/com/alibaba/mnnllm/android/utils/TimberConfig.kt",
+      "sha256": "9bfbd4731a3cb9abef201eab466e21466c89efb48992d8cda24b97fdb4ed24fa",
+      "sizeBytes": 15985
+    },
+    {
+      "baselineSha256": null,
       "path": "apps/Android/MnnLlmChat/app/src/main/res/drawable/rag_selected_badge_background.xml",
       "sha256": "f52e96af78cb1aa34d5c77b69bad6810f169c705c39b4af0e6301467f4501b81",
       "sizeBytes": 232
@@ -476,7 +482,7 @@
     }
   ],
   "incremental": {
-    "createdAt": "2026-09-08T01:09:40Z",
+    "createdAt": "2026-09-08T01:29:58Z",
     "targetCommit": "6c2a25b8e32f02216335701dd8f97c2981816a45",
     "version": "bundled-embedding-step25-final",
     "zipFileName": "mnn-3.6.1-local-rag-incremental.zip"
