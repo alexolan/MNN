@@ -286,6 +286,7 @@ class RagRuntimeCoordinator(
                 document.mimeType == "application/vnd.openxmlformats-officedocument.wordprocessingml.document" ->
                 DocxDocumentParser()
             extension == "txt" || document.mimeType == "text/plain" -> TextDocumentParser()
+            extension == "pdf" || document.mimeType == "application/pdf" -> PdfDocumentParser()
             else -> error("No indexing parser is available for ${document.displayName}")
         }
     }

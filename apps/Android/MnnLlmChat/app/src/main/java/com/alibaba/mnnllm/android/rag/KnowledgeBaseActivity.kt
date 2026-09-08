@@ -162,9 +162,18 @@ class KnowledgeBaseActivity : AppCompatActivity() {
                 var completed = 0
                 var failed = 0
                 queued.forEach { document ->
-                    when (runtime.indexDocument(document)) {
-                        is VectorIndexingPipeline.Result.Completed -> completed++
-                        is VectorIndexingPipeline.Result.Failed -> failed++
+                    try {
+                        when (runtime.indexDocument(document)) {
+                            is VectorIndexingPipeline.Result.Completed -> completed++
+                            is VectorIndexingPipeline.Result.Failed -> failed++
+                        }
+                    } catch (error: Throwable) {
+                        database.updateDocumentStatus(
+                            document.id,
+                            RagDocumentStatus.FAILED,
+                            error.message ?: error.javaClass.simpleName
+                        )
+                        failed++
                     }
                 }
                 IndexingSummary(queued.size, completed, failed)
