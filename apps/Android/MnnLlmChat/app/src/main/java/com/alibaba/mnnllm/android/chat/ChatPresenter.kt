@@ -233,8 +233,9 @@ class ChatPresenter(
     }
 
     private fun submitLlmRequest(prompt:String): HashMap<String, Any> {
-        val generateResultProcessor =
-            GenerateResultProcessor()
+        val generateResultProcessor = GenerateResultProcessor()
+        val repetitionGuard = GenerationRepetitionGuard()
+        var repetitionDetected = false
         generateResultProcessor.generateBegin()
         val result = chatSession.generate(prompt, mapOf(), object: GenerateProgressListener {
             override fun onProgress(progress: String?): Boolean {
@@ -243,13 +244,28 @@ class ChatPresenter(
                     this@ChatPresenter.generateListener?.onLlmGenerateProgress(progress, generateResultProcessor)
                     additionalListeners.forEach { it.onLlmGenerateProgress(progress, generateResultProcessor) }
                 }
+
+                if (!repetitionDetected && progress != null) {
+                    val detection = repetitionGuard.detect(generateResultProcessor.getNormalOutput())
+                    if (detection != null) {
+                        repetitionDetected = true
+                        Log.w(
+                            TAG,
+                            "Stopping generation after detecting ${detection.repeatCount} consecutive repetitions " +
+                                "of a ${detection.repeatedText.length}-character unit"
+                        )
+                    }
+                }
                 if (stopGenerating) {
                     Log.d(TAG, "stopGenerating requested")
                 }
-                return stopGenerating
+                return stopGenerating || repetitionDetected
             }
         })
         result["response"] = generateResultProcessor.getRawResult()
+        if (repetitionDetected) {
+            result["repetition_detected"] = true
+        }
         return result
     }
 

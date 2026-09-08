@@ -88,6 +88,19 @@
                     android:paddingEnd="16dp"
                     android:text="@string/rag_knowledge_bases" />
 
+                <com.google.android.material.divider.MaterialDivider
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp" />
+
+                <TextView
+                    android:id="@+id/btn_log_management"
+                    style="@style/SettingsRowClickable"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:text="应用日志" />
+
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 

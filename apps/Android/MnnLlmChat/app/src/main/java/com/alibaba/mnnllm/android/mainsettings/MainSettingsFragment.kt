@@ -157,6 +157,9 @@ class MainSettingsFragment : Fragment() {
         binding.btnKnowledgeBase.setOnClickListener {
             startActivity(Intent(requireContext(), KnowledgeBaseActivity::class.java))
         }
+        binding.btnLogManagement.setOnClickListener {
+            startActivity(Intent(requireContext(), LogManagementActivity::class.java))
+        }
     }
 
     private fun setupResetApiConfig() {

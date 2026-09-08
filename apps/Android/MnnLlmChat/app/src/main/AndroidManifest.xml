@@ -94,6 +94,11 @@
         </activity>
 
         <activity
+            android:name=".mainsettings.LogManagementActivity"
+            android:exported="false"
+            android:label="应用日志" />
+
+        <activity
             android:name=".mainsettings.StorageManagementActivity"
             android:configChanges="orientation|screenSize"
             android:exported="false"

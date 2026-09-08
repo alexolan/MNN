@@ -191,10 +191,40 @@ object TimberConfig {
     }
     
     private fun disableFileLogging() {
-        fileLoggingTree?.let {
-            Timber.uproot(it)
+        fileLoggingTree?.let { tree ->
+            tree.close()
+            Timber.uproot(tree)
             fileLoggingTree = null
         }
+    }
+
+    fun getLogFiles(context: android.content.Context): List<java.io.File> {
+        val logDir = java.io.File(context.filesDir, LOG_DIR_NAME)
+        return logDir.listFiles()
+            ?.filter { it.isFile && it.name.matches(Regex("log\\.\\d+")) }
+            ?.sortedBy { it.lastModified() }
+            .orEmpty()
+    }
+
+    fun readLogs(context: android.content.Context): String {
+        fileLoggingTree?.flushNow()
+        return getLogFiles(context).joinToString(separator = "") { file ->
+            try {
+                file.readText()
+            } catch (error: Exception) {
+                android.util.Log.e("TimberConfig", "Failed to read ${file.name}", error)
+                ""
+            }
+        }
+    }
+
+    fun clearLogs(context: android.content.Context): Boolean {
+        fileLoggingTree?.flushNow()
+        var success = true
+        getLogFiles(context).forEach { file ->
+            if (file.exists() && !file.delete()) success = false
+        }
+        return success
     }
 
     /**
@@ -289,6 +319,38 @@ object TimberConfig {
             }
         }
         
+        fun flushNow() {
+            val completion = java.util.concurrent.CountDownLatch(1)
+            writeHandler.post {
+                try {
+                    val logsToWrite = java.util.ArrayList<String>()
+                    logQueue.drainTo(logsToWrite)
+                    if (logsToWrite.isNotEmpty()) {
+                        val currentLogFile = getCurrentLogFile()
+                        java.io.BufferedWriter(java.io.FileWriter(currentLogFile, true)).use { writer ->
+                            logsToWrite.forEach(writer::write)
+                            writer.flush()
+                        }
+                    }
+                } catch (error: Exception) {
+                    android.util.Log.e("FileLoggingTree", "Error flushing logs", error)
+                } finally {
+                    completion.countDown()
+                }
+            }
+            try {
+                completion.await(5, java.util.concurrent.TimeUnit.SECONDS)
+            } catch (error: InterruptedException) {
+                Thread.currentThread().interrupt()
+            }
+        }
+
+        fun close() {
+            flushNow()
+            writeHandler.removeCallbacksAndMessages(null)
+            writeHandlerThread.quitSafely()
+        }
+
         private fun getCurrentLogFile(): java.io.File {
             // Find the current active log file (log.1 to log.10)
             // We want to write to the first one that is not full, or rotate if needed.
