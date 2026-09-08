@@ -232,6 +232,20 @@ class ChatPresenter(
         )
     }
 
+    internal fun strictKnowledgeBasePrompt(
+        question: String,
+        citations: List<com.alibaba.mnnllm.android.rag.RagCitation>,
+        retrievedPrompt: String? = null
+    ): String {
+        if (citations.isEmpty() || retrievedPrompt.isNullOrBlank()) {
+            return "你当前处于仅限知识库回答模式。知识库中没有找到足够信息。" +
+                "只能回答：未在所选知识库中找到相关信息。不得使用常识、训练数据或猜测补充。\n\n用户问题：$question"
+        }
+        return "你当前处于仅限知识库回答模式。严格依据以下知识库检索内容回答，" +
+            "不得使用知识库之外的信息，不得猜测；证据不足时明确回答未在知识库中找到相关信息。\n\n" +
+            retrievedPrompt
+    }
+
     private fun submitLlmRequest(prompt:String): HashMap<String, Any> {
         val generateResultProcessor = GenerateResultProcessor()
         val repetitionGuard = GenerationRepetitionGuard()
@@ -328,11 +342,17 @@ class ChatPresenter(
             } else {
                 val runtime = (chatActivity.application as MnnLlmApplication).ragRuntimeCoordinator
                 try {
+                    val knowledgeBaseOnly = runtime.isKnowledgeBaseOnlyEnabled()
                     val provider = runtime.promptProvider(
                         knowledgeBaseId = runtime.selectedKnowledgeBaseId(),
-                        sessionId = sessionId
+                        sessionId = if (knowledgeBaseOnly) null else sessionId
                     )
-                    provider?.augment(userPrompt)?.prompt ?: userPrompt
+                    val ragContext = provider?.augment(userPrompt)
+                    when {
+                        !knowledgeBaseOnly -> ragContext?.prompt ?: userPrompt
+                        provider == null -> strictKnowledgeBasePrompt(userPrompt, emptyList())
+                        else -> strictKnowledgeBasePrompt(userPrompt, ragContext?.citations.orEmpty(), ragContext?.prompt)
+                    }
                 } catch (error: Exception) {
                     Log.w(TAG, "RAG prompt augmentation failed; continuing without retrieval", error)
                     userPrompt

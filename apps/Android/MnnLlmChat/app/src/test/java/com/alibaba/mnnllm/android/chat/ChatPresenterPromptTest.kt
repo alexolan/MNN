@@ -6,6 +6,13 @@ import org.junit.Test
 class ChatPresenterPromptTest {
 
     @Test
+    fun `strict knowledge base mode refuses when retrieval has no citations`() {
+        val prompt = ChatPresenter.strictKnowledgeBasePrompt("问题", emptyList())
+        assert(prompt.contains("未在所选知识库中找到相关信息"))
+        assert(prompt.contains("不得使用常识"))
+    }
+
+    @Test
     fun `sana blank input should use sana default prompt`() {
         val resolved = ChatPresenter.resolveDiffusionPrompt("", "local/sana-1600m")
         assertEquals(DEFAULT_SANA_PROMPT, resolved)

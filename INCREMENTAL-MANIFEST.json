@@ -81,8 +81,8 @@
     {
       "baselineSha256": "ead297105908ced2243b86f1a7f3c6260b41e334f3ef93db68b90c13ff027ad3",
       "path": "apps/Android/MnnLlmChat/app/src/main/java/com/alibaba/mnnllm/android/chat/ChatPresenter.kt",
-      "sha256": "43b486fb07907985cc1b275b3443c49bc5a1c215bb989dd9a8cee2121a47440d",
-      "sizeBytes": 24014
+      "sha256": "9e02d5a581070538a0feeb4e543fb798eec05ec021a8244d2e9926b50651c697",
+      "sizeBytes": 25299
     },
     {
       "baselineSha256": null,
@@ -177,8 +177,8 @@
     {
       "baselineSha256": null,
       "path": "apps/Android/MnnLlmChat/app/src/main/java/com/alibaba/mnnllm/android/rag/KnowledgeBaseActivity.kt",
-      "sha256": "3f577a9b25787f4725c6bf31e499201a89615bfb2f3430e7086815d89bf571af",
-      "sizeBytes": 13711
+      "sha256": "40b3e85a713ecd00c5a474098f26f4b40f3b51e7a848fd80c6b685a82cefef59",
+      "sizeBytes": 14132
     },
     {
       "baselineSha256": null,
@@ -237,8 +237,8 @@
     {
       "baselineSha256": null,
       "path": "apps/Android/MnnLlmChat/app/src/main/java/com/alibaba/mnnllm/android/rag/RagRuntimeCoordinator.kt",
-      "sha256": "8523016fe276d4e6cd762fde18d97bbe950fcc705a2007c2516ccf282387600a",
-      "sizeBytes": 14534
+      "sha256": "751cd58b0f4331140fdae36831006bfbad386b37a12a747fd0431d0ee1fdea59",
+      "sizeBytes": 14755
     },
     {
       "baselineSha256": null,
@@ -303,8 +303,8 @@
     {
       "baselineSha256": null,
       "path": "apps/Android/MnnLlmChat/app/src/main/res/layout/activity_knowledge_base.xml",
-      "sha256": "706a73790278a8d7d3341f93a2fbfda32ecbbd84d9c00128828ba59c9376ee61",
-      "sizeBytes": 4358
+      "sha256": "0ec471134aaa48283b7a72b4b7e1d9953fdbe3c2132e8864de469c6654cd1d40",
+      "sizeBytes": 4727
     },
     {
       "baselineSha256": null,
@@ -333,14 +333,14 @@
     {
       "baselineSha256": null,
       "path": "apps/Android/MnnLlmChat/app/src/main/res/values-zh-rCN/strings.xml",
-      "sha256": "8d58df94502c1fd17469de8cabd9ae781b06e52b383bcf1c25619cc6b1770841",
-      "sizeBytes": 46242
+      "sha256": "91a5a553c71fa3e0587841700af92682b95192021a450080e8695da63602b82e",
+      "sizeBytes": 46316
     },
     {
       "baselineSha256": "950532c13c3d9e400e3a221ffff8011229e9760d1d4edab0de852ff9a0ed510b",
       "path": "apps/Android/MnnLlmChat/app/src/main/res/values/strings.xml",
-      "sha256": "b8f101d27a209fe7470dc040edc10f891faa3ae50c61a92d421ba7234930b17f",
-      "sizeBytes": 48798
+      "sha256": "ef243785ce122e3c2daeb44e3ed36d59a9c7f43d1f1d3be439c8307f79123b67",
+      "sizeBytes": 48870
     },
     {
       "baselineSha256": null,
@@ -488,7 +488,7 @@
     }
   ],
   "incremental": {
-    "createdAt": "2026-09-08T09:59:24Z",
+    "createdAt": "2026-09-08T10:24:29Z",
     "targetCommit": "6c2a25b8e32f02216335701dd8f97c2981816a45",
     "version": "bundled-embedding-step25-final",
     "zipFileName": "mnn-3.6.1-local-rag-incremental.zip"

@@ -135,6 +135,11 @@ class KnowledgeBaseActivity : AppCompatActivity() {
         binding.knowledgeBaseRecycler.adapter = adapter
         binding.addKnowledgeBase.setOnClickListener { showCreateKnowledgeBaseDialog() }
         binding.configureModel.setOnClickListener { modelDirectoryPicker.launch(null) }
+        val ragPreferences = getSharedPreferences(PREFERENCES, MODE_PRIVATE)
+        binding.knowledgeBaseOnly.isChecked = ragPreferences.getBoolean(KEY_KNOWLEDGE_BASE_ONLY, false)
+        binding.knowledgeBaseOnly.setOnCheckedChangeListener { _, enabled ->
+            ragPreferences.edit().putBoolean(KEY_KNOWLEDGE_BASE_ONLY, enabled).apply()
+        }
         val runtime = (application as com.alibaba.mnnllm.android.MnnLlmApplication)
             .ragRuntimeCoordinator
         binding.modelStatus.text = if (runtime.isConfigured()) {
@@ -287,6 +292,7 @@ class KnowledgeBaseActivity : AppCompatActivity() {
     companion object {
         const val PREFERENCES = "rag_preferences"
         const val KEY_SELECTED_KNOWLEDGE_BASE = "selected_knowledge_base"
+        const val KEY_KNOWLEDGE_BASE_ONLY = "knowledge_base_only"
         const val NO_SELECTION = -1L
         private const val PARSER_VERSION = 1
         private val SUPPORTED_MIME_TYPES = arrayOf(

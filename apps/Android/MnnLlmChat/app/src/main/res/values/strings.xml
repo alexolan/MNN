@@ -727,4 +727,5 @@
     <string name="session_attachment_view_source">View attachment source</string>
     <string name="session_attachment_source_unavailable">No application can open this attachment source</string>
     <string name="session_attachment_status_with_error">%1$s · %2$s</string>
+    <string name="rag_knowledge_base_only">Knowledge base only</string>
 </resources>

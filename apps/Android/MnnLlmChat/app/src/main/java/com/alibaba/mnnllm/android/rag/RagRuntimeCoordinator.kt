@@ -180,6 +180,10 @@ class RagRuntimeCoordinator(
     fun promptProvider(knowledgeBaseId: Long): RagPromptProvider? =
         promptProvider(knowledgeBaseId = knowledgeBaseId, sessionId = null)
 
+    fun isKnowledgeBaseOnlyEnabled(): Boolean = appContext
+        .getSharedPreferences(KnowledgeBaseActivity.PREFERENCES, Context.MODE_PRIVATE)
+        .getBoolean(KnowledgeBaseActivity.KEY_KNOWLEDGE_BASE_ONLY, false)
+
     fun selectedKnowledgeBaseId(): Long? = appContext
         .getSharedPreferences(KnowledgeBaseActivity.PREFERENCES, Context.MODE_PRIVATE)
         .getLong(KnowledgeBaseActivity.KEY_SELECTED_KNOWLEDGE_BASE, KnowledgeBaseActivity.NO_SELECTION)

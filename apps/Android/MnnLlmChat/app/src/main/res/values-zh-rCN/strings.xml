@@ -697,4 +697,5 @@
         <item quantity="other">%d 个文档</item>
     </plurals>
 
+    <string name="rag_knowledge_base_only">仅限知识库回答</string>
 </resources>
