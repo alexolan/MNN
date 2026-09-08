@@ -16,6 +16,7 @@ import com.alibaba.mnnllm.android.modelist.ModelListManager
 import com.alibaba.mnnllm.android.privacy.PrivacyPolicyManager
 import com.alibaba.mnnllm.android.rag.RagRuntimeCoordinator
 import com.google.firebase.crashlytics.FirebaseCrashlytics
+import com.tom_roush.pdfbox.android.PDFBoxResourceLoader
 
 class MnnLlmApplication : Application() {
     val ragRuntimeCoordinator: RagRuntimeCoordinator by lazy(LazyThreadSafetyMode.SYNCHRONIZED) {
@@ -24,6 +25,7 @@ class MnnLlmApplication : Application() {
     
     override fun onCreate() {
         super.onCreate()
+        PDFBoxResourceLoader.init(applicationContext)
         ApplicationProvider.set(this)
         UpdateChecker.registerDownloadReceiver(applicationContext)
         CrashUtil.init(this)
